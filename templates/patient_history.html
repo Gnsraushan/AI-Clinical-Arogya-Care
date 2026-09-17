@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical History | ArogyaCare</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='patient_history.css') }}">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-header">
+                <div class="brand-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                        <path d="M12 5v16"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">ArogyaCare</span>
+                    <span class="brand-tagline">AI Clinical Intake System</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu" aria-label="Main Navigation">
+                <a href="{{ url_for('patient_home') if 'patient_home' in routes else '#' }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Home</span>
+                </a>
+                <a href="{{ url_for('patient_details') if 'patient_details' in routes else '#' }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>My Details</span>
+                </a>
+                <a href="{{ url_for('ai_conversation') if 'ai_conversation' in routes else '#' }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
+                    <span>AI Conversation</span>
+                </a>
+                <a href="#" class="nav-item active" aria-current="page">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>History</span>
+                </a>
+                <a href="{{ url_for('physician_review') if 'physician_review' in routes else '#' }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/><path d="m9 14 2 2 4-4"/></svg>
+                    <span>Physician Review</span>
+                </a>
+                <a href="{{ url_for('documents') if 'documents' in routes else '#' }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Documents</span>
+                </a>
+                <a href="{{ url_for('settings') if 'settings' in routes else '#' }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-chip">
+                    <div class="avatar">{{ (user_name or 'P')[0] | upper }}</div>
+                    <div class="user-info">
+                        <span class="user-name">{{ user_name or 'Patient' }}</span>
+                        <span class="user-role">Patient Portal</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-wrapper">
+            <!-- Mobile Navigation Header -->
+            <header class="mobile-header">
+                <div class="brand-logo-mobile">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    <span>ArogyaCare</span>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                </button>
+            </header>
+
+            <div class="content-container">
+                <!-- Page Breadcrumbs & Header -->
+                <header class="page-header">
+                    <nav class="breadcrumb" aria-label="Breadcrumb">
+                        <span class="breadcrumb-item">Home</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active">History</span>
+                    </nav>
+                    <div class="header-titles">
+                        <h1 class="page-title">Medical History</h1>
+                        <p class="page-subtitle">Review your previous clinical intake records and keep track of your healthcare journey.</p>
+                    </div>
+                </header>
+
+                {% set records = patient_histories or histories or [] %}
+
+                {% if records and records|length > 0 %}
+                <!-- History Control Panel -->
+                <section class="controls-card" aria-label="History Filters">
+                    <div class="search-box">
+                        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" id="searchInput" placeholder="Search by problem, symptoms, or summary..." aria-label="Search clinical history">
+                        <button id="clearSearchBtn" class="clear-btn" aria-label="Clear search" style="display: none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        </button>
+                    </div>
+                    
+                    <div class="sort-box">
+                        <label for="sortOrder">Sort by:</label>
+                        <select id="sortOrder" aria-label="Sort timeline records">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Medical History Vertical Timeline -->
+                <section class="timeline-container" id="timelineContainer">
+                    <div class="timeline-axis"></div>
+
+                    {% for item in records %}
+                    <article class="timeline-item" 
+                             data-id="{{ item.id }}"
+                             data-date="{{ item.created_at or '' }}"
+                             data-problem="{{ (item.main_problem or '') | lower }}"
+                             data-symptoms="{{ (item.symptoms or '') | lower }}"
+                             data-summary="{{ (item.summary or '') | lower }}">
+                        
+                        <div class="timeline-marker" aria-hidden="true">
+                            <div class="marker-dot"></div>
+                        </div>
+
+                        <div class="record-card">
+                            <div class="card-header">
+                                <div class="date-badge">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                    <span>{{ item.created_at.strftime('%d %B %Y') if item.created_at and item.created_at.strftime is defined else (item.created_at or 'Intake Date') }}</span>
+                                </div>
+                                <span class="category-tag">Clinical Intake</span>
+                            </div>
+
+                            <div class="card-body">
+                                <h2 class="record-title">{{ item.main_problem or 'Clinical Assessment' }}</h2>
+                                
+                                {% if item.summary %}
+                                <p class="record-summary-preview">
+                                    {{ item.summary | truncate(150, True, '...') }}
+                                </p>
+                                {% endif %}
+
+                                <div class="record-quick-meta">
+                                    {% if item.duration %}
+                                    <div class="meta-item">
+                                        <span class="meta-label">Duration:</span>
+                                        <span class="meta-value">{{ item.duration }}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if item.symptoms %}
+                                    <div class="meta-item">
+                                        <span class="meta-label">Symptoms:</span>
+                                        <span class="meta-value">{{ item.symptoms | truncate(50, True, '...') }}</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Hidden Data Store for JS Modal -->
+                            <script type="application/json" class="record-data">
+                                {
+                                    "id": {{ item.id | tojson }},
+                                    "date": {{ (item.created_at.strftime('%d %B %Y') if item.created_at and item.created_at.strftime is defined else (item.created_at or 'Not specified')) | tojson }},
+                                    "main_problem": {{ (item.main_problem or 'Not available') | tojson }},
+                                    "duration": {{ (item.duration or 'Not specified') | tojson }},
+                                    "symptoms": {{ (item.symptoms or 'None recorded') | tojson }},
+                                    "medical_history": {{ (item.medical_history or 'None reported') | tojson }},
+                                    "medicines": {{ (item.medicines or 'None currently taking') | tojson }},
+                                    "allergies": {{ (item.allergies or 'No known allergies') | tojson }},
+                                    "summary": {{ (item.summary or 'No AI summary was generated for this intake.') | tojson }}
+                                }
+                            </script>
+
+                            <div class="card-footer">
+                                <button type="button" class="view-details-btn" onclick="openRecordModal(this)">
+                                    <span>View Full Record</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </section>
+
+                <!-- Dynamic Filter Empty State -->
+                <div id="noSearchResults" class="empty-state" style="display: none;">
+                    <div class="empty-icon-wrap">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M8 11h6"/></svg>
+                    </div>
+                    <h2 class="empty-title">No matching records found</h2>
+                    <p class="empty-desc">Try adjusting your search criteria or clearing filters to view all intake records.</p>
+                    <button class="btn-secondary" onclick="resetSearch()">Reset Search</button>
+                </div>
+
+                {% else %}
+                <!-- Database Empty State -->
+                <div class="empty-state">
+                    <div class="empty-icon-wrap">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <path d="M12 18v-6"/>
+                            <path d="M9 15h6"/>
+                        </svg>
+                    </div>
+                    <h2 class="empty-title">No clinical history yet</h2>
+                    <p class="empty-desc">Your previous intake records will appear here after you complete your first clinical intake.</p>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Record Details Modal -->
+    <div class="modal-backdrop" id="recordModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <div>
+                        <span class="modal-subtitle">Clinical Intake Record</span>
+                        <h2 class="modal-title" id="modalTitle">Record Details</h2>
+                    </div>
+                    <button class="modal-close-btn" onclick="closeRecordModal()" aria-label="Close dialog">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                </header>
+
+                <div class="modal-body">
+                    <!-- Date Bar -->
+                    <div class="modal-date-bar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                        <span>Date of Intake: <strong id="modalDate">--</strong></span>
+                    </div>
+
+                    <!-- Intake Key Grid -->
+                    <div class="modal-section-grid">
+                        <div class="data-group">
+                            <label class="data-label">Main Problem</label>
+                            <div class="data-value highlight" id="modalMainProblem">--</div>
+                        </div>
+
+                        <div class="data-group">
+                            <label class="data-label">Duration</label>
+                            <div class="data-value" id="modalDuration">--</div>
+                        </div>
+                    </div>
+
+                    <div class="data-group">
+                        <label class="data-label">Symptoms</label>
+                        <div class="data-value" id="modalSymptoms">--</div>
+                    </div>
+
+                    <div class="modal-section-grid">
+                        <div class="data-group">
+                            <label class="data-label">Medical History</label>
+                            <div class="data-value" id="modalMedicalHistory">--</div>
+                        </div>
+
+                        <div class="data-group">
+                            <label class="data-label">Current Medicines</label>
+                            <div class="data-value" id="modalMedicines">--</div>
+                        </div>
+                    </div>
+
+                    <div class="data-group">
+                        <label class="data-label">Allergies</label>
+                        <div class="data-value badge-alert" id="modalAllergies">--</div>
+                    </div>
+
+                    <!-- AI Summary Callout -->
+                    <div class="ai-summary-card">
+                        <div class="ai-card-header">
+                            <div class="ai-title-wrap">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.8

@@ -1,0 +1,742 @@
+/* ==========================================================================
+   ArogyaCare - AI Conversation Page Stylesheet
+   Design Standard: Clinical Intake SaaS (Light Palette, Calm, Professional)
+   Primary Colors: #003135 | #024950 | #0FA4AF
+   Soft Backgrounds: #EAF6F5 | #DDF1F3 | #BFE5E8 | #F4FAF9 | #FFFFFF
+   Accent: #964734 (Used sparingly)
+   ========================================================================== */
+
+/* CSS Variables */
+:root {
+  --color-primary-dark: #003135;
+  --color-primary-mid: #024950;
+  --color-primary-brand: #0fa4af;
+
+  --color-bg-base: #f4faf9;
+  --color-bg-card: #ffffff;
+  --color-bg-soft-ai: #eaf6f5;
+  --color-bg-soft-user: #ddf1f3;
+  --color-bg-subtle: #bfe5e8;
+
+  --color-accent-warm: #964734;
+
+  --color-text-main: #003135;
+  --color-text-muted: #4a6365;
+  --color-text-subtle: #6c888b;
+  --color-border: #d2e8e7;
+  --color-border-light: #e5f2f1;
+
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --shadow-sm: 0 1px 3px rgba(0, 49, 53, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 49, 53, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 49, 53, 0.08);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  
+  --transition-smooth: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Styles & Accessibility */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.arogya-body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accessibility Focus States */
+:focus-visible {
+  outline: 2px solid var(--color-primary-brand);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Header & Top Navigation */
+.arogya-navbar {
+  background-color: var(--color-bg-card);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  background-color: var(--color-primary-dark);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.brand-tagline {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* Desktop Navigation Links */
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.nav-link:hover {
+  color: var(--color-primary-dark);
+  background-color: var(--color-bg-soft-ai);
+}
+
+.nav-link.active {
+  color: var(--color-primary-dark);
+  background-color: var(--color-bg-soft-user);
+  font-weight: 600;
+}
+
+.nav-icon {
+  stroke: currentColor;
+}
+
+/* Mobile Toggle & Drawer */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-primary-dark);
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.mobile-drawer {
+  display: none;
+  background-color: var(--color-bg-card);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+}
+
+.mobile-drawer.open {
+  display: block;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobile-nav-link {
+  padding: 0.65rem 0.85rem;
+  font-size: 0.925rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.mobile-nav-link.active {
+  background-color: var(--color-bg-soft-ai);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+/* Main Container */
+.arogya-container {
+  max-width: 1360px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Page Top Header */
+.page-top-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.25rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
+}
+
+/* Real Backend Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background-color: var(--color-bg-soft-ai);
+  color: var(--color-primary-mid);
+  border: 1px solid var(--color-border);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-primary-brand);
+}
+
+.status-badge.status-ready-for-review,
+.status-badge.status-intake-completed {
+  background-color: #e6f4ea;
+  color: #137333;
+  border-color: #ceead6;
+}
+
+/* Workspace 2-Column Grid */
+.intake-workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* General Panel Architecture */
+.panel {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+  background-color: #ffffff;
+}
+
+.panel-header-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.clinical-ai-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-soft-ai);
+  color: var(--color-primary-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.panel-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.panel-subtitle {
+  font-size: 0.8125rem;
+  color: var(--color-text-subtle);
+  margin-top: 0.1rem;
+}
+
+/* LEFT PANEL: Conversation Stream */
+.conversation-panel {
+  min-height: 600px;
+  max-height: calc(100vh - 210px);
+}
+
+.conversation-stream {
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+/* Clinical Message Rows */
+.message-row {
+  display: flex;
+  gap: 0.85rem;
+  max-width: 88%;
+}
+
+.message-row.row-ai {
+  align-self: flex-start;
+}
+
+.message-row.row-patient {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.row-ai .message-avatar {
+  background-color: var(--color-primary-mid);
+  color: #ffffff;
+}
+
+.row-patient .message-avatar {
+  background-color: var(--color-primary-brand);
+  color: #ffffff;
+}
+
+.message-bubble-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.message-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.row-patient .message-meta {
+  justify-content: flex-end;
+}
+
+.speaker-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-text-subtle);
+}
+
+.message-timestamp {
+  font-size: 0.7rem;
+  color: var(--color-text-subtle);
+}
+
+.message-content {
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.925rem;
+  line-height: 1.55;
+  color: var(--color-text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.row-ai .message-content {
+  background-color: var(--color-bg-soft-ai);
+  border: 1px solid var(--color-border);
+  border-top-left-radius: 2px;
+}
+
+.row-patient .message-content {
+  background-color: var(--color-bg-soft-user);
+  border: 1px solid var(--color-border);
+  border-top-right-radius: 2px;
+}
+
+/* Form Input Area */
+.conversation-input-wrapper {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  background-color: #ffffff;
+}
+
+.intake-form {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.intake-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-base);
+  transition: var(--transition-smooth);
+}
+
+.intake-input:focus {
+  outline: none;
+  border-color: var(--color-primary-brand);
+  background-color: #ffffff;
+}
+
+.intake-submit-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background-color: var(--color-primary-mid);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.intake-submit-btn:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* RIGHT PANEL: Clinical Summary Panel */
+.summary-panel {
+  min-height: 600px;
+}
+
+.summary-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow-y: auto;
+}
+
+/* AI Summary Highlight Block */
+.ai-summary-card {
+  background-color: var(--color-bg-soft-ai);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ai-summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ai-summary-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-primary-dark);
+}
+
+.ai-summary-title-wrap h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.info-svg {
+  color: var(--color-primary-brand);
+}
+
+.btn-copy-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: var(--transition-smooth);
+}
+
+.btn-copy-summary:hover {
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary-brand);
+}
+
+.summary-text-p {
+  font-size: 0.875rem;
+  color: var(--color-text-main);
+  line-height: 1.6;
+}
+
+.summary-placeholder {
+  font-size: 0.85rem;
+  color: var(--color-text-subtle);
+  font-style: italic;
+}
+
+.toggle-expand-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary-mid);
+  font-size: 0.775rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.3rem;
+  padding: 0;
+  text-decoration: underline;
+}
+
+/* Clinical Disclaimer */
+.clinical-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--color-border);
+  font-size: 0.725rem;
+  color: var(--color-text-subtle);
+  line-height: 1.4;
+}
+
+.clinical-disclaimer svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--color-accent-warm);
+}
+
+/* Structured Data Items */
+.structured-fields-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.data-field-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0.9rem;
+  background-color: var(--color-bg-base);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
+  gap: 0.2rem;
+}
+
+.field-label {
+  font-size: 0.725rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-subtle);
+}
+
+.field-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-primary-dark);
+}
+
+/* Action Navigation Footer */
+.action-footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-action-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--color-primary-mid);
+  text-decoration: none;
+  background-color: #ffffff;
+  transition: var(--transition-smooth);
+}
+
+.btn-action-outline:hover {
+  background-color: var(--color-bg-soft-ai);
+  border-color: var(--color-primary-brand);
+}
+
+/* Empty State Styling */
+.empty-state-container {
+  margin: auto;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  max-width: 360px;
+}
+
+.empty-state-illustration {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem auto;
+  background-color: var(--color-bg-soft-ai);
+  color: var(--color-primary-brand);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.4rem;
+}
+
+.empty-state-desc {
+  font-size: 0.825rem;
+  color: var(--color-text-subtle);
+  line-height: 1.45;
+}
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message-row {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .intake-workspace-grid {
+    grid-template-columns: 1fr 380px;
+  }
+}
+
+@media (max-width: 840px) {
+  .desktop-nav {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .intake-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .conversation-panel {
+    min-height: 480px;
+    max-height: 550px;
+  }
+
+  .summary-panel {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .arogya-container {
+    padding: 1rem;
+  }
+  
+  .message-row {
+    max-width: 95%;
+  }
+
+  .page-top-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Conversation | ArogyaCare Clinical Intake</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Primary Style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='ai_conversation.css') }}">
+</head>
+<body class="arogya-body">
+    <!-- Top Bar Navigation -->
+    <header class="arogya-navbar" role="banner">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <div class="brand-logo" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <div class="brand-titles">
+                    <span class="brand-name">ArogyaCare</span>
+                    <span class="brand-tagline">AI-Powered Clinical Intake System</span>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <nav class="desktop-nav" role="navigation" aria-label="Main Navigation">
+                <a href="{{ url_for('patient_dashboard') if 'patient_dashboard' in endpoints else '#' }}" class="nav-link">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Home
+                </a>
+                <a href="{{ url_for('patient_details') if 'patient_details' in endpoints else '#' }}" class="nav-link">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    My Details
+                </a>
+                <a href="{{ url_for('ai_conversation') if 'ai_conversation' in endpoints else '#' }}" class="nav-link active" aria-current="page">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    AI Conversation
+                </a>
+                <a href="{{ url_for('patient_history') if 'patient_history' in endpoints else '#' }}" class="nav-link">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    History
+                </a>
+                <a href="{{ url_for('physician_review') if 'physician_review' in endpoints else '#' }}" class="nav-link">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Physician Review
+                </a>
+                <a href="{{ url_for('patient_documents') if 'patient_documents' in endpoints else '#' }}" class="nav-link">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    Documents
+                </a>
+                <a href="{{ url_for('patient_settings') if 'patient_settings' in endpoints else '#' }}" class="nav-link">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Settings
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="mobileDrawer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+            <nav class="mobile-nav" role="navigation">
+                <a href="{{ url_for('patient_dashboard') if 'patient_dashboard' in endpoints else '#' }}" class="mobile-nav-link">Home</a>
+                <a href="{{ url_for('patient_details') if 'patient_details' in endpoints else '#' }}" class="mobile-nav-link">My Details</a>
+                <a href="{{ url_for('ai_conversation') if 'ai_conversation' in endpoints else '#' }}" class="mobile-nav-link active">AI Conversation</a>
+                <a href="{{ url_for('patient_history') if 'patient_history' in endpoints else '#' }}" class="mobile-nav-link">History</a>
+                <a href="{{ url_for('physician_review') if 'physician_review' in endpoints else '#' }}" class="mobile-nav-link">Physician Review</a>
+                <a href="{{ url_for('patient_documents') if 'patient_documents' in endpoints else '#' }}" class="mobile-nav-link">Documents</a>
+                <a href="{{ url_for('patient_settings') if 'patient_settings' in endpoints else '#' }}" class="mobile-nav-link">Settings</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="arogya-container" id="main-content">
+        <!-- Page Top Header -->
+        <div class="page-top-header">
+            <div class="header-titles">
+                <h1 class="page-title">AI Conversation</h1>
+                <p class="page-subtitle">Review your clinical intake conversation and the information collected from it.</p>
+            </div>
+            
+            {% if case_status or intake_status %}
+            <div class="header-status-wrapper">
+                <span class="status-badge status-{{ (case_status or intake_status)|lower|replace(' ', '-') }}">
+                    <span class="status-dot"></span>
+                    {{ case_status or intake_status }}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Main Workspace: Desktop 2-Column Grid -->
+        <div class="intake-workspace-grid">
+            
+            <!-- LEFT PANEL: Conversation Stream -->
+            <section class="panel conversation-panel" aria-labelledby="conversation-heading">
+                <!-- Inner Panel Header -->
+                <div class="panel-header">
+                    <div class="panel-header-title-wrap">
+                        <div class="clinical-ai-icon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 id="conversation-heading" class="panel-title">Clinical Intake Conversation</h2>
+                            <p class="panel-subtitle">Your responses help organize information for clinical review.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversation Stream Body -->
+                <div class="conversation-stream" id="conversationStream">
+                    {% if conversations and conversations|length > 0 %}
+                        {% for msg in conversations %}
+                        {% set is_patient = (msg.sender|lower == 'patient' or msg.sender|lower == 'user') %}
+                        <article class="message-row {{ 'row-patient' if is_patient else 'row-ai' }}">
+                            <div class="message-avatar" aria-hidden="true">
+                                {% if is_patient %}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                {% else %}
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                    <line x1="8" y1="21" x2="16" y2="21"/>
+                                    <line x1="12" y1="17" x2="12" y2="21"/>
+                                </svg>
+                                {% endif %}
+                            </div>
+
+                            <div class="message-bubble-container">
+                                <div class="message-meta">
+                                    <span class="speaker-label">
+                                        {{ 'PATIENT' if is_patient else 'AI ASSISTANT' }}
+                                    </span>
+                                    {% if msg.created_at %}
+                                    <time class="message-timestamp">{{ msg.created_at }}</time>
+                                    {% endif %}
+                                </div>
+                                <div class="message-content">
+                                    <p>{{ msg.message }}</p>
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Empty State: No Conversation -->
+                        <div class="empty-state-container">
+                            <div class="empty-state-illustration" aria-hidden="true">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    <line x1="9" y1="10" x2="15" y2="10"/>
+                                    <line x1="12" y1="7" x2="12" y2="13"/>
+                                </svg>
+                            </div>
+                            <h3 class="empty-state-title">Your intake conversation hasn't started yet.</h3>
+                            <p class="empty-state-desc">Once you begin your AI-assisted intake, your conversation and organized case information will appear here.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Input Footer Area (Only if backend endpoint for intake submit exists) -->
+                {% if allow_message_input %}
+                <div class="conversation-input-wrapper">
+                    <form id="intakeForm" action="{{ url_for('send_intake_message') if 'send_intake_message' in endpoints else '#' }}" method="POST" class="intake-form">
+                        <label for="patientMessage" class="visually-hidden">Type your clinical response</label>
+                        <input type="text" id="patientMessage" name="message" class="intake-input" placeholder="Type your response..." required autocomplete="off">
+                        <button type="submit" class="intake-submit-btn" aria-label="Send Message">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </section>
+
+
+            <!-- RIGHT PANEL: Structured Clinical Intake Summary -->
+            <section class="panel summary-panel" aria-labelledby="summary-heading">
+                <!-- Inner Panel Header -->
+                <div class="panel-header">
+                    <div>
+                        <h2 id="summary-heading" class="panel-title">Clinical Intake Summary</h2>
+                        <p class="panel-subtitle">Information organized from your intake conversation.</p>
+                    </div>
+                </div>
+
+                <div class="summary-body">
+                    <!-- AI Summary Block (Visually Prominent) -->
+                    <div class="ai-summary-card">
+                        <div class="ai-summary-header">
+                            <div class="ai-summary-title-wrap">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="info-svg">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="16" x2="12" y2="12"/>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                                </svg>
+                                <h3>AI-generated intake summary</h3>
+                            </div>
+                            {% set current_summary = summary or (patient_history.summary if patient_history and patient_history.summary else (history.summary if history and history.summary else None)) %}
+                            {% if current_summary and current_summary|length > 250 %}
+                            <button type="button" class="btn-copy-summary" id="copySummaryBtn" aria-label="Copy AI Summary to clipboard">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                Copy
+                            </button>
+                            {% endif %}
+                        </div>
+
+                        <div class="ai-summary-content" id="aiSummaryContent">
+                            {% if current_summary %}
+                                <p class="summary-text-p" id="summaryText">{{ current_summary }}</p>
+                                {% if current_summary|length > 250 %}
+                                <button type="button" class="toggle-expand-btn" id="toggleSummaryExpand" aria-expanded="false">
+                                    Show more
+                                </button>
+                                {% endif %}
+                            {% else %}
+                                <p class="summary-placeholder">Clinical information will appear here as your intake progresses.</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Medical & Legal Disclaimer -->
+                        <div class="clinical-disclaimer">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                            <span>This summary is generated from the intake conversation to help organize information. It does not replace professional medical advice or clinical judgment.</span>
+                        </div>
+                    </div>
+
+                    <!-- Structured Fields Data Grid -->
+                    {% set ph = patient_history if patient_history else (history if history else {}) %}
+                    <div class="structured-fields-grid">
+                        
+                        <div class="data-field-item">
+                            <span class="field-label">Main Problem</span>
+                            <span class="field-value">{{ ph.main_problem if ph and ph.main_problem else "Not available yet" }}</span>
+                        </div>
+
+                        <div class="data-field-item">
+                            <span class="field-label">Duration</span>
+                            <span class="field-value">{{ ph.duration if ph and ph.duration else "Not available yet" }}</span>
+                        </div>
+
+                        <div class="data-field-item">
+                            <span class="field-label">Symptoms</span>
+                            <span class="field-value">{{ ph.symptoms if ph and ph.symptoms else "Not available yet" }}</span>
+                        </div>
+
+                        <div class="data-field-item">
+                            <span class="field-label">Medical History</span>
+                            <span class="field-value">{{ ph.medical_history if ph and ph.medical_history else "Not available yet" }}</span>
+                        </div>
+
+                        <div class="data-field-item">
+                            <span class="field-label">Current Medicines</span>
+                            <span class="field-value">{{ ph.medicines if ph and ph.medicines else "Not available yet" }}</span>
+                        </div>
+
+                        <div class="data-field-item">
+                            <span class="field-label">Allergies</span>
+                            <span class="field-value">{{ ph.allergies if ph and ph.allergies else "Not available yet" }}</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Page Actions Navigation Bar -->
+                    <div class="action-footer-nav">
+                        <a href="{{ url_for('patient_dashboard') if 'patient_dashboard' in endpoints else '#' }}" class="btn-action-outline">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                            Back to Dashboard
+                        </a>
+                        <a href="{{ url_for('patient_history') if 'patient_history' in endpoints else '#' }}" class="btn-action-outline">
+                            View Patient History
+                        </a>
+                        <a href="{{ url_for('physician_review') if 'physician_review' in endpoints else '#' }}" class="btn-action-outline">
+                            View Physician Review
+                        </a>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Page Javascript File -->
+    <script src="{{ url_for('static', filename='ai_conversation.js') }}"></script>
+</body>
+</html>

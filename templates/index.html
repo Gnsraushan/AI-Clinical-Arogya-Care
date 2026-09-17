@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Arogya care</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='common.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='role.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+
+  
+</head>
+
+<body>
+
+  <main class="role-page">
+
+    <div class="role-header">
+      <h1><span class="hospital-tag">Arogya care</span></h1>
+
+      <h1>How would you like to continue?</h1>
+
+      <p>
+        Select your role to continue with the clinical intake system.
+      </p>
+    </div>
+
+
+    <div class="role-cards">
+
+      <!-- STAFF -->
+      <div class="role-card">
+
+        <div class="role-icon">🩺</div>
+
+        <h2>Doctor / Hospital Staff</h2>
+
+        <p>
+          For doctors, nurses and hospital staff managing patient intake.
+        </p>
+
+        <ul>
+          <li>Doctor</li>
+          <li>Nurse</li>
+          <li>Hospital Staff</li>
+        </ul>
+
+        <a href="/?role=doctor" class="btn-primary">
+          Continue as Staff
+        </a>
+
+      </div>
+
+
+      <!-- PATIENT -->
+      <div class="role-card">
+
+        <div class="role-icon">🧑</div>
+
+        <h2>Patient</h2>
+
+        <p>
+          Complete your clinical intake using a simple guided process.
+        </p>
+
+        <ul>
+          <li>Quick check-in</li>
+          <li>ABHA / Patient ID</li>
+          <li>Simple guided process</li>
+        </ul>
+
+        <a href="/?role=patient" class="btn-primary">
+          Continue as Patient
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <p class="role-footer">
+      Smart India Hackathon — AI-Powered Clinical Intake System
+    </p>
+
+  </main>
+
+</body>
+</html>

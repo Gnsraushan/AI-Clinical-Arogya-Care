@@ -1,0 +1,220 @@
+.role-page {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 40px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #102A43 0%,
+      #1769AA 100%
+    );
+}
+
+
+/* HEADER */
+
+.role-header {
+  text-align: center;
+
+  margin-bottom: 40px;
+
+  color: white;
+}
+
+
+.hospital-tag {
+  display: inline-block;
+
+  margin-bottom: 14px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+
+  opacity: 0.85;
+}
+
+
+.role-header h1 {
+  margin-bottom: 10px;
+
+  font-size: clamp(26px, 4vw, 36px);
+
+  font-weight: 700;
+}
+
+
+.role-header p {
+  font-size: 14px;
+
+  opacity: 0.8;
+}
+
+
+/* CARDS */
+
+.role-cards {
+
+  width: 100%;
+
+  max-width: 820px;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 24px;
+}
+
+
+.role-card {
+
+  padding: 32px 28px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+
+  transition: 0.25s ease;
+}
+
+
+.role-card:hover {
+
+  transform: translateY(-6px);
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.20);
+}
+
+
+/* ICON */
+
+.role-icon {
+
+  width: 54px;
+
+  height: 54px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-bottom: 20px;
+
+  background: #EAF4FC;
+
+  border-radius: 14px;
+
+  font-size: 25px;
+}
+
+
+.role-card h2 {
+
+  margin-bottom: 8px;
+
+  font-size: 20px;
+
+  color: var(--navy);
+}
+
+
+.role-card p {
+
+  margin-bottom: 20px;
+
+  color: var(--text-muted);
+
+  font-size: 13.5px;
+}
+
+
+/* LIST */
+
+.role-card ul {
+
+  list-style: none;
+
+  margin-bottom: 24px;
+}
+
+
+.role-card li {
+
+  position: relative;
+
+  padding-left: 22px;
+
+  margin-bottom: 8px;
+
+  color: var(--text-muted);
+
+  font-size: 13px;
+}
+
+
+.role-card li::before {
+
+  content: "✓";
+
+  position: absolute;
+
+  left: 0;
+
+  color: var(--blue);
+
+  font-weight: 700;
+}
+
+
+/* FOOTER */
+
+.role-footer {
+
+  margin-top: 36px;
+
+  color: white;
+
+  opacity: 0.7;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .role-page {
+    padding: 30px 16px;
+  }
+
+  .role-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .role-card {
+    padding: 26px 22px;
+  }
+
+}

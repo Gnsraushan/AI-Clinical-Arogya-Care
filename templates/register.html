@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Create Account | Clinical Intake Kiosk</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='common.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='role.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+
+  
+
+</head>
+
+
+<body>
+
+  <div class="auth-page">
+
+
+    <!-- LEFT -->
+
+    <aside class="auth-branding">
+
+      <div>
+
+        <span class="hospital-tag">
+          AI Clinical Intake Kiosk
+        </span>
+
+        <h1>
+          Create your account to get started.
+        </h1>
+
+        <p>
+          Registration takes less than a minute.
+          Detailed medical history is collected later during intake.
+        </p>
+
+        <ul class="brand-features">
+
+          <li>Role-based secure access</li>
+
+          <li>ABHA-ready patient identification</li>
+
+          <li>Built for Flask + SQLite backend</li>
+
+        </ul>
+
+      </div>
+
+
+      <div class="brand-bottom">
+        Smart India Hackathon Project
+      </div>
+
+    </aside>
+
+
+    <!-- RIGHT -->
+
+    <main class="auth-form-panel">
+
+      <div class="auth-form-wrapper">
+
+        <a
+          href="index.html"
+          class="change-role"
+        >
+          ← Change Role
+        </a>
+
+
+        <h2 id="authTitle">
+          Create Account
+        </h2>
+
+
+        <p
+          class="subtitle"
+          id="authSubtitle"
+        >
+          Fill in your details below.
+        </p>
+
+
+        <form
+          id="registerForm"
+          method="POST"
+          action="/register"
+          novalidate
+        >
+        <input type="hidden" name="role" value="{{ role }}">
+
+
+          <!-- NAME -->
+
+          <div class="form-group">
+
+            <label for="fullName">
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Enter your full name"
+            >
+
+            <span class="error-text"></span>
+
+          </div>
+
+
+          <!-- STAFF -->
+
+          <div id="doctorFields">
+
+            <div class="form-group">
+
+              <label for="email">
+                Email
+              </label>
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="doctor@hospital.com"
+              >
+
+              <span class="error-text"></span>
+
+            </div>
+
+
+            <div class="form-row-split">
+
+              <div class="form-group">
+
+                <label for="staffRole">
+                  Staff Role
+                </label>
+
+                <select id="staffRole" name="staffRole">
+
+                  <option value="">
+                    Select role
+                  </option>
+
+                  <option value="doctor">
+                    Doctor
+                  </option>
+
+                  <option value="nurse">
+                    Nurse
+                  </option>
+
+                  <option value="hospital_staff">
+                    Hospital Staff
+                  </option>
+
+                </select>
+
+                <span class="error-text"></span>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="department">
+                  Department
+                </label>
+
+                <input
+                  type="text"
+                  id="department"
+                  name="department"
+                  placeholder="e.g. Cardiology"
+                >
+
+                <span class="error-text"></span>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="hospital">
+                Hospital / Organization
+              </label>
+
+              <input
+                type="text"
+                id="hospital"
+                name="hospital"
+                placeholder="e.g. AIIMS Delhi"
+              >
+
+              <span class="error-text"></span>
+
+            </div>
+
+          </div>
+
+
+          <!-- PATIENT -->
+
+          <div id="patientFields">
+
+            <div class="form-row-split">
+
+              <div class="form-group">
+
+                <label for="age">
+                  Age
+                </label>
+
+               <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  min="1"
+                  placeholder="e.g. 34"
+>
+                <span class="error-text"></span>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="gender">
+                  Gender
+                </label>
+
+                <select id="gender" name="gender">
+
+                  <option value="">
+                    Select gender
+                  </option>
+
+                  <option value="male">
+                    Male
+                  </option>
+
+                  <option value="female">
+                    Female
+                  </option>
+
+                  <option value="other">
+                    Other
+                  </option>
+
+                </select>
+
+                <span class="error-text"></span>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="phone">
+                Phone Number
+              </label>
+
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="9876543210"
+              >
+
+              <span class="error-text"></span>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="patientId">
+                Patient ID / ABHA Number
+              </label>
+
+              <input
+                type="text"
+                id="patientId"
+                name="patientId"
+                placeholder="Optional"
+              >
+
+              <span class="error-text"></span>
+
+            </div>
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="form-row-split">
+
+            <div class="form-group">
+
+              <label for="password">
+                Password
+              </label>
+
+              <div class="password-wrapper">
+
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Minimum 6 characters"
+                >
+
+                <button
+                  type="button"
+                  class="toggle-password"
+                >
+                  Show
+                </button>
+
+              </div>
+
+              <span class="error-text"></span>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="confirmPassword">
+                Confirm Password
+              </label>
+
+              <div class="password-wrapper">
+
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Repeat password"
+                >
+
+                <button
+                  type="button"
+                  class="toggle-password"
+                >
+                  Show
+                </button>
+
+              </div>
+
+              <span class="error-text"></span>
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn-primary"
+          >
+            Create Account
+          </button>
+
+
+          <div
+            class="status-message"
+            id="statusMessage"
+          ></div>
+
+
+          <p class="form-footer-text">
+
+            Already have an account?
+
+            <a
+  href="/login?role={{ role }}"
+  id="signInLink"
+  class="link-muted">
+              Sign In
+            </a>
+
+          </p>
+
+
+        </form>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <script src="{{ url_for('static', filename='auth.js') }}"></script>
+
+</body>
+
+</html>

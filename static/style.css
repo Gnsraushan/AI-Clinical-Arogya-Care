@@ -1,0 +1,2862 @@
+/* =====================================================
+   CARESYNC
+   AI Patient Case Taking
+   Professional Healthcare Dashboard
+   ===================================================== */
+
+
+:root{
+
+  --primary:#3269df;
+  --primary-dark:#234fae;
+
+  --navy:#10264d;
+  --navy-light:#173565;
+
+  --background:#f4f7fb;
+
+  --white:#ffffff;
+
+  --text:#172642;
+  --muted:#7b899e;
+
+  --border:#e3e9f2;
+
+  --green:#20ae78;
+  --purple:#7659df;
+  --orange:#e39832;
+  --teal:#159c9a;
+
+  --shadow:
+    0 8px 25px rgba(26,48,83,.06);
+
+}
+
+
+/* ================= RESET ================= */
+
+
+*{
+
+  margin:0;
+  padding:0;
+
+  box-sizing:border-box;
+
+}
+
+
+body{
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+
+  background:var(--background);
+
+  color:var(--text);
+
+  font-size:15px;
+
+}
+
+
+button,
+input{
+
+  font-family:inherit;
+
+}
+
+
+button{
+
+  cursor:pointer;
+
+}
+
+
+/* ================= SIDEBAR ================= */
+
+
+.sidebar{
+
+  position:fixed;
+
+  top:0;
+  bottom:0;
+  left:0;
+
+  width:235px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #102750,
+      #132e5a
+    );
+
+  color:white;
+
+  padding:22px 14px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  z-index:10;
+
+}
+
+
+.brand{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:
+    2px
+    10px
+    28px;
+
+}
+
+
+.brand-icon{
+
+  width:40px;
+  height:40px;
+
+  border-radius:11px;
+
+  background:#e8f2ff;
+
+  color:#3169df;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:20px;
+
+  font-weight:bold;
+
+}
+
+
+.brand h2{
+
+  font-size:20px;
+
+}
+
+
+.brand small{
+
+  display:block;
+
+  color:#9db2d4;
+
+  font-size:11px;
+
+  margin-top:3px;
+
+}
+
+
+.menu-title{
+
+  color:#7890b7;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+  letter-spacing:1.2px;
+
+  padding:
+    0 12px
+    9px;
+
+}
+
+
+nav{
+
+  display:grid;
+
+  gap:4px;
+
+}
+
+
+.nav-item{
+
+  border:0;
+
+  background:transparent;
+
+  color:#c9d6e9;
+
+  width:100%;
+
+  min-height:42px;
+
+  border-radius:9px;
+
+  padding:0 12px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  text-align:left;
+
+  font-size:14px;
+
+}
+
+
+.nav-item span{
+
+  width:18px;
+
+  text-align:center;
+
+  font-size:16px;
+
+}
+
+
+.nav-item:hover{
+
+  background:
+    rgba(255,255,255,.08);
+
+  color:white;
+
+}
+
+
+.nav-item.active{
+
+  background:
+    linear-gradient(
+      90deg,
+      #356de0,
+      #2856bd
+    );
+
+  color:white;
+
+}
+
+
+.sidebar-bottom{
+
+  margin-top:auto;
+
+}
+
+
+.privacy{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  padding:12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.1);
+
+  background:
+    rgba(255,255,255,.04);
+
+  border-radius:10px;
+
+}
+
+
+.privacy>span{
+
+  color:#67d4b0;
+
+  font-size:18px;
+
+}
+
+
+.privacy b{
+
+  display:block;
+
+  font-size:10px;
+
+}
+
+
+.privacy small{
+
+  display:block;
+
+  color:#8da4ca;
+
+  font-size:8px;
+
+  margin-top:3px;
+
+}
+
+
+/* ================= MAIN ================= */
+
+
+.main{
+
+  margin-left:235px;
+
+  padding:
+    20px
+    28px
+    25px;
+    width: calc(100% - 235px);
+
+  max-width:none;
+
+}
+
+
+/* ================= TOPBAR ================= */
+
+
+.topbar{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:20px;
+
+  min-height:45px;
+
+  margin-bottom:16px;
+
+}
+
+
+.search{
+
+  height:40px;
+
+  max-width:570px;
+
+  flex:1;
+
+  background:white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:9px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:0 11px;
+
+}
+
+
+.search>span{
+
+  font-size:22px;
+
+  color:#8d99aa;
+
+}
+
+
+.search input{
+
+  border:0;
+
+  outline:0;
+
+  flex:1;
+
+  font-size:10px;
+
+}
+
+
+.search kbd{
+
+  font-size:8px;
+
+  color:#8b99ac;
+
+  border:
+    1px solid
+    var(--border);
+
+  padding:3px 5px;
+
+  border-radius:4px;
+
+}
+
+
+.doctor-area{
+
+  margin-left:auto;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+}
+
+
+.notification{
+
+  width:35px;
+  height:35px;
+
+  background:white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:8px;
+
+}
+
+
+.doctor{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+}
+
+
+.doctor-avatar{
+
+  width:35px;
+  height:35px;
+
+  border-radius:50%;
+
+  background:#e1ebff;
+
+  color:#3265c9;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+}
+
+
+.doctor b{
+
+  display:block;
+
+  font-size:13px;
+  font-weight:600;
+
+}
+
+
+.doctor small{
+
+  display:block;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  margin-top:3px;
+
+}
+
+
+.new-visit{
+
+  border:0;
+
+  background:var(--primary);
+
+  color:white;
+
+  border-radius:8px;
+
+  height:38px;
+
+  padding:0 14px;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+}
+
+
+/* ================= PATIENT ================= */
+
+
+.patient-card{
+
+  background:white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:13px;
+
+  padding:15px 18px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:11px;
+
+  box-shadow:var(--shadow);
+
+}
+
+
+.patient-info{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:13px;
+
+}
+
+
+.patient-avatar{
+
+  width:54px;
+  height:54px;
+
+  border-radius:50%;
+
+  background:#e1ecff;
+
+  border:4px solid #f2f6fd;
+
+  display:grid;
+
+  place-items:center;
+
+  color:#3568cb;
+
+  font-size:13px;
+
+  font-weight:bold;
+
+}
+
+
+.patient-name{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+}
+
+
+.patient-name h1{
+
+  font-size:25px;
+
+}
+
+
+.active-status{
+
+  background:#eafaf3;
+
+  color:#159667;
+
+  border-radius:20px;
+
+  padding:5px 9px;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+}
+
+
+.patient-info p{
+
+  color:#65758e;
+
+  font-size:11px;
+
+  margin-top:5px;
+
+}
+
+
+.patient-info p span{
+
+  color:#b4becb;
+
+  margin:0 5px;
+
+}
+
+
+.patient-info .muted{
+
+  color:#8996a8;
+
+}
+
+
+.abha{
+
+  min-width:220px;
+
+  padding:10px 13px;
+
+  border:
+    1px solid
+    #d8f1e7;
+
+  background:#effaf6;
+
+  border-radius:9px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+}
+
+
+.check{
+
+  width:27px;
+  height:27px;
+
+  border-radius:50%;
+
+  background:#d8f6e9;
+
+  color:#15966a;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:11px;
+
+  font-weight:bold;
+
+}
+
+
+.abha b{
+
+  display:block;
+
+  color:#188961;
+
+  font-size:11px;
+
+}
+
+
+.abha small{
+
+  display:block;
+
+  color:#78968b;
+
+  font-size:10px;
+
+  margin-top:2px;
+
+}
+
+
+.abha>span{
+
+  margin-left:auto;
+
+  font-size:17px;
+
+  color:#62a48e;
+
+}
+
+
+/* ================= WORKFLOW ================= */
+
+
+.workflow-card{
+
+  background:white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:13px;
+
+  padding:13px 16px;
+
+  margin-bottom:11px;
+
+  box-shadow:var(--shadow);
+
+}
+
+
+.workflow-heading{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:13px;
+
+}
+
+
+.workflow-heading label{
+
+  display:block;
+
+  color:#8492a9;
+
+  font-size:7px;
+
+  letter-spacing:1.3px;
+
+  font-weight:bold;
+
+}
+
+
+.workflow-heading h3{
+
+  font-size:13px;
+
+  margin-top:3px;
+
+}
+
+
+.consent{
+
+  background:#eefaf5;
+
+  color:#168e65;
+
+  border-radius:20px;
+
+  padding:5px 8px;
+
+  font-size:8px;
+
+}
+
+
+.workflow{
+
+  display:flex;
+
+  align-items:center;
+
+}
+
+
+.step{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  white-space:nowrap;
+
+}
+
+
+.step-circle{
+
+  width:25px;
+  height:25px;
+
+  border-radius:50%;
+
+  background:#edf1f6;
+
+  color:#8b98a9;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:9px;
+
+  font-weight:bold;
+
+}
+
+
+.step b{
+
+  display:block;
+
+  font-size:9px;
+
+}
+
+
+.step small{
+
+  display:block;
+
+  color:#8996a8;
+
+  font-size:7px;
+
+  margin-top:2px;
+
+}
+
+
+.step.completed .step-circle{
+
+  background:#20b27b;
+
+  color:white;
+
+}
+
+
+.step.current .step-circle{
+
+  background:#3269df;
+
+  color:white;
+
+  box-shadow:
+    0 0 0 4px
+    #eaf0ff;
+
+}
+
+
+.step.current b{
+
+  color:#3266d2;
+
+}
+
+
+.line{
+
+  height:1px;
+
+  background:#dce3ed;
+
+  flex:1;
+
+  margin:0 9px;
+
+}
+
+
+.completed-line{
+
+  background:#48bd93;
+
+}
+
+
+/* ================= GRID ================= */
+
+
+.dashboard-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    1.5fr
+    1fr;
+
+  gap:20px;
+
+}
+
+
+.lower-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr
+    .95fr
+    1.2fr;
+
+  gap:11px;
+
+  margin-top:11px;
+
+}
+
+
+/* ================= CARD ================= */
+
+
+.card{
+
+  background:white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:13px;
+
+  box-shadow:var(--shadow);
+
+  min-width:0;
+
+}
+
+
+.card-header{
+
+  min-height:61px;
+
+  padding:12px 14px;
+
+  border-bottom:
+    1px solid
+    #edf1f6;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+}
+
+
+.card-header h3{
+
+  font-size:16px;
+
+}
+
+
+.card-header small{
+
+  display:block;
+
+  color:#8794a9;
+
+  font-size:11px;
+
+  margin-top:3px;
+
+}
+
+
+.heading-icon{
+
+  width:31px;
+  height:31px;
+
+  border-radius:9px;
+
+  display:grid;
+
+  place-items:center;
+
+  font-weight:bold;
+
+  font-size:13px;
+
+}
+
+
+.blue{
+
+  background:#eaf2ff;
+
+  color:#3269df;
+
+}
+
+
+.purple{
+
+  background:#f0edff;
+
+  color:#7659df;
+
+}
+
+
+.green{
+
+  background:#e8faf2;
+
+  color:#1da977;
+
+}
+
+
+.orange{
+
+  background:#fff4e4;
+
+  color:#db8e29;
+
+}
+
+
+.teal{
+
+  background:#e7f8f8;
+
+  color:#159c9a;
+
+}
+
+
+.navy{
+
+  background:#e9f0fb;
+
+  color:#31568e;
+
+}
+
+
+/* ================= CONVERSATION ================= */
+
+
+.conversation-card{
+
+  min-height:510px;
+
+  display:flex;
+
+  flex-direction:column;
+
+}
+
+
+.live{
+
+  margin-left:auto;
+
+  color:#d45b66;
+
+  background:#fff0f1;
+
+  border-radius:20px;
+
+  padding:5px 7px;
+
+  font-size:7px;
+
+  font-weight:bold;
+
+}
+
+
+.languages{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  padding:9px 13px;
+
+  border-bottom:
+    1px solid
+    #eef2f7;
+
+}
+
+
+.languages>span{
+
+  font-size:8px;
+
+  color:#8a97aa;
+
+  margin-right:3px;
+
+}
+
+
+.language{
+
+  border:
+    1px solid
+    #e0e6ef;
+
+  background:white;
+
+  color:#708097;
+
+  border-radius:6px;
+
+  padding:4px 7px;
+
+  font-size:8px;
+
+}
+
+
+.language.active{
+
+  background:#eaf1ff;
+
+  border-color:#d6e3ff;
+
+  color:#3266d6;
+
+  font-weight:bold;
+
+}
+
+
+.messages{
+
+  padding:13px;
+
+  flex:1;
+
+  overflow:auto;
+
+  max-height:340px;
+
+}
+
+
+.message{
+
+  display:flex;
+
+  gap:7px;
+
+  margin-bottom:12px;
+
+}
+
+
+.patient-message{
+
+  justify-content:flex-end;
+
+}
+
+
+.message-avatar{
+
+  width:25px;
+  height:25px;
+
+  flex:0 0 25px;
+
+  border-radius:50%;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:7px;
+
+  font-weight:bold;
+
+}
+
+
+.message-avatar.ai{
+
+  background:#e8f0ff;
+
+  color:#3269df;
+
+}
+
+
+.message-avatar.patient{
+
+  background:#def5e9;
+
+  color:#178b63;
+
+}
+
+
+.bubble{
+
+  max-width:83%;
+
+  padding:9px 10px;
+
+  border-radius:10px;
+
+  background:#f2f5f9;
+
+}
+
+
+.ai-message .bubble{
+
+  border-top-left-radius:3px;
+
+}
+
+
+.patient-message .bubble{
+
+  background:#356de4;
+
+  color:white;
+
+  border-top-right-radius:3px;
+
+}
+
+
+.bubble b{
+
+  color:#5371ad;
+
+  font-size:9px;
+
+}
+
+
+.patient-message .bubble b{
+
+  color:white;
+
+}
+
+
+.bubble p{
+
+  font-size:14px;
+
+  line-height:1.55;
+
+  margin-top:3px;
+
+}
+
+
+.patient-message .bubble p{
+
+  margin-top:0;
+
+}
+
+
+.bubble small{
+
+  display:block;
+
+  font-size:8px;
+
+  opacity:.65;
+
+  margin-top:5px;
+
+}
+
+
+.quick-buttons{
+
+  display:flex;
+
+  gap:5px;
+
+  padding:
+    0 13px
+    9px;
+
+  overflow:auto;
+
+}
+
+
+.quick-buttons button{
+
+  flex:0 0 auto;
+
+  border:
+    1px solid
+    #dfe6f1;
+
+  background:white;
+
+  color:#687790;
+
+  border-radius:7px;
+
+  padding:7px 10px;
+
+  font-size:9px;
+
+}
+
+
+.composer{
+
+  display:flex;
+
+  gap:6px;
+
+  padding:
+    9px 13px;
+
+  border-top:
+    1px solid
+    #edf1f6;
+
+}
+
+
+.composer button{
+
+  border:0;
+
+  border-radius:8px;
+
+}
+
+
+#micButton{
+
+  width:32px;
+
+  background:#edf3fb;
+
+  color:#52709e;
+
+}
+
+
+.composer input{
+
+  flex:1;
+
+  min-width:0;
+
+  border:
+    1px solid
+    #dfe6ef;
+
+  border-radius:8px;
+
+  outline:0;
+
+  padding:10px;
+
+  font-size:13px;
+
+}
+
+
+.send{
+
+  background:#3269df;
+
+  color:white;
+
+  padding:0 14px;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+}
+
+
+.disclaimer{
+
+  text-align:center;
+
+  color:#9aa6b7;
+
+  font-size:7px;
+
+  padding:
+    0 13px
+    11px;
+
+}
+
+
+/* ================= INTERVIEW ================= */
+
+
+.interview-card{
+
+  min-height:510px;
+
+}
+
+
+.beta{
+
+  margin-left:auto;
+
+  background:#f1eeff;
+
+  color:#7359d3;
+
+  border-radius:20px;
+
+  padding:5px 7px;
+
+  font-size:7px;
+
+  font-weight:bold;
+
+}
+
+
+.completion{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  padding:
+    14px
+    14px
+    6px;
+
+}
+
+
+.completion b{
+
+  display:block;
+
+  font-size:9px;
+
+}
+
+
+.completion small{
+
+  display:block;
+
+  color:#8a97aa;
+
+  font-size:7px;
+
+  margin-top:3px;
+
+}
+
+
+.completion strong{
+
+  font-size:16px;
+
+  color:#3269df;
+
+}
+
+
+.progress{
+
+  height:5px;
+
+  background:#e8edf5;
+
+  border-radius:10px;
+
+  margin:
+    0 14px
+    13px;
+
+  overflow:hidden;
+
+}
+
+
+.progress span{
+
+  display:block;
+
+  width:72%;
+
+  height:100%;
+
+  background:#3269df;
+
+  border-radius:10px;
+
+}
+
+
+.interview-list{
+
+  padding:0 12px;
+
+}
+
+
+.interview-item{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:11px 8px;
+
+  border:1px solid transparent;
+
+  border-radius:9px;
+
+  margin-bottom:5px;
+
+}
+
+
+.interview-item.active{
+
+  background:#f5f8ff;
+
+  border-color:#d9e4fb;
+
+}
+
+
+.number{
+
+  width:25px;
+  height:25px;
+
+  border-radius:50%;
+
+  background:#edf1f6;
+
+  color:#8996a8;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:8px;
+
+  font-weight:bold;
+
+}
+
+
+.interview-item.done .number{
+
+  background:#e5f8ef;
+
+  color:#17976b;
+
+}
+
+
+.interview-item.active .number{
+
+  background:#3269df;
+
+  color:white;
+
+}
+
+
+.interview-item b{
+
+  display:block;
+
+  font-size:14px;
+
+}
+
+
+.interview-item small{
+
+  display:block;
+
+  color:#8996a8;
+
+  font-size:11px;
+
+  margin-top:3px;
+
+}
+
+
+.interview-item>span:last-child{
+
+  margin-left:auto;
+
+  color:#8d99aa;
+
+  font-size:7px;
+
+}
+
+
+.interview-item.active>span:last-child{
+
+  color:#3269df;
+
+  font-weight:bold;
+
+}
+
+
+.adaptive-tip{
+
+  display:flex;
+
+  gap:8px;
+
+  margin:
+    10px 13px;
+
+  padding:10px;
+
+  border:
+    1px solid
+    #e7e1ff;
+
+  background:#f5f2ff;
+
+  border-radius:9px;
+
+  color:#6854bb;
+
+}
+
+
+.adaptive-tip p{
+
+  font-size:7px;
+
+  line-height:1.5;
+
+}
+
+
+.adaptive-tip b{
+
+  font-size:8px;
+
+}
+
+
+/* ================= SUMMARY ================= */
+
+
+.summary-card{
+
+  min-height:510px;
+
+}
+
+
+.generated{
+
+  margin-left:auto;
+
+  background:#eaf9f2;
+
+  color:#159367;
+
+  border-radius:20px;
+
+  padding:5px 7px;
+
+  font-size:7px;
+
+  font-weight:bold;
+
+}
+
+
+.summary-grid{
+
+  padding:11px;
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:7px;
+
+}
+
+
+.summary-box{
+
+  background:#fbfcfe;
+
+  border:
+    1px solid
+    #e9edf4;
+
+  border-radius:8px;
+
+  padding:9px;
+
+  min-height:70px;
+
+}
+
+
+.summary-box label{
+
+  display:block;
+
+  color:#7f8da2;
+
+  font-size:9px;
+
+  margin-bottom:7px;
+
+}
+
+
+.summary-box b{
+
+  display:block;
+
+  font-size:14px;
+
+}
+
+
+.summary-box small{
+
+  display:block;
+
+  color:#8996aa;
+
+  font-size:11px;
+
+  margin-top:4px;
+
+}
+
+
+.confidence{
+
+  margin:
+    0 11px
+    11px;
+
+  padding:10px;
+
+  border:
+    1px solid
+    #dcefe7;
+
+  background:#f4fbf8;
+
+  border-radius:9px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+}
+
+
+.confidence-circle{
+
+  width:43px;
+  height:43px;
+
+  border:
+    4px solid
+    #35b887;
+
+  border-radius:50%;
+
+  display:grid;
+
+  place-items:center;
+
+  color:#168e64;
+
+  font-size:8px;
+
+  font-weight:bold;
+
+}
+
+
+.confidence b{
+
+  font-size:8px;
+
+}
+
+
+.confidence p{
+
+  color:#7d9188;
+
+  font-size:6.5px;
+
+  margin-top:3px;
+
+}
+
+
+.confidence button{
+
+  margin-left:auto;
+
+  border:
+    1px solid
+    #d5deeb;
+
+  background:white;
+
+  color:#4168a9;
+
+  border-radius:7px;
+
+  padding:7px 8px;
+
+  font-size:7px;
+
+}
+
+
+/* ================= DOCUMENTS ================= */
+
+
+.upload,
+.view-all{
+
+  margin-left:auto;
+
+  border:0;
+
+  background:transparent;
+
+  color:#356bdc;
+
+  font-size:8px;
+
+  font-weight:bold;
+
+}
+
+
+.documents{
+
+  padding:9px 12px;
+
+}
+
+
+.document{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:8px 5px;
+
+  border-bottom:
+    1px solid
+    #eef2f6;
+
+}
+
+
+.document:last-child{
+
+  border-bottom:0;
+
+}
+
+
+.file{
+
+  width:28px;
+  height:28px;
+
+  border-radius:7px;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:6px;
+
+  font-weight:bold;
+
+}
+
+
+.file.pdf{
+
+  background:#fff0f0;
+
+  color:#d35d67;
+
+}
+
+
+.file.lab{
+
+  background:#edf4ff;
+
+  color:#4673cc;
+
+}
+
+
+.document b{
+
+  display:block;
+
+  font-size:11px;
+
+}
+
+
+.document small{
+
+  display:block;
+
+  color:#8c98aa;
+
+  font-size:9px;
+
+  margin-top:3px;
+
+}
+
+
+.document>span{
+
+  margin-left:auto;
+
+  width:18px;
+  height:18px;
+
+  border-radius:50%;
+
+  background:#e8f9f1;
+
+  color:#1a9a6b;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:8px;
+
+}
+
+
+/* ================= TIMELINE ================= */
+
+
+.timeline{
+
+  padding:12px 15px;
+
+}
+
+
+.timeline-item{
+
+  position:relative;
+
+  display:flex;
+
+  gap:10px;
+
+  padding:
+    0
+    0
+    17px
+    13px;
+
+}
+
+
+.timeline-item:not(:last-child)::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:2px;
+
+  top:8px;
+
+  width:1px;
+
+  height:calc(100% - 3px);
+
+  background:#dce4ef;
+
+}
+
+
+.timeline-item>span{
+
+  position:absolute;
+
+  left:-1px;
+
+  top:2px;
+
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:#aeb9ca;
+
+  border:2px solid #edf1f6;
+
+  z-index:1;
+
+}
+
+
+.timeline-item.current>span{
+
+  background:#3269df;
+
+  border-color:#e4edff;
+
+}
+
+
+.timeline-item b{
+
+  display:block;
+
+  font-size:11px;
+
+}
+
+
+.timeline-item small{
+
+  display:block;
+
+  color:#8996aa;
+
+  font-size:9px;
+
+  margin-top:3px;
+
+}
+
+
+/* ================= PHYSICIAN ================= */
+
+
+.physician{
+
+  min-height:145px;
+
+}
+
+
+.review-status{
+
+  margin-left:auto;
+
+  background:#fff5e5;
+
+  color:#ad7726;
+
+  padding:5px 7px;
+
+  border-radius:20px;
+
+  font-size:7px;
+
+  font-weight:bold;
+
+}
+
+
+.review-box{
+
+  margin:
+    10px 12px;
+
+  padding:10px;
+
+  border:
+    1px solid
+    #e2e8f1;
+
+  border-radius:9px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+}
+
+
+.review-box label{
+
+  display:block;
+
+  color:#8a97a9;
+
+  font-size:6px;
+
+  letter-spacing:.8px;
+
+  font-weight:bold;
+
+}
+
+
+.review-box b{
+
+  display:block;
+
+  font-size:11px;
+
+  margin-top:4px;
+
+}
+
+
+.review-box p{
+
+  color:#8996aa;
+
+  font-size:9px;
+
+  margin-top:3px;
+
+}
+
+
+.review-buttons{
+
+  display:flex;
+
+  gap:5px;
+
+}
+
+
+.review-buttons button{
+
+  border-radius:7px;
+
+  min-height:31px;
+
+  padding:0 11px;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+}
+
+
+#previewButton{
+
+  border:
+    1px solid
+    #d5deeb;
+
+  background:white;
+
+  color:#4168a9;
+
+}
+
+
+#verifyButton{
+
+  border:0;
+
+  background:#3269df;
+
+  color:white;
+
+}
+
+
+.tags{
+
+  display:flex;
+
+  gap:4px;
+
+  flex-wrap:wrap;
+
+  padding:
+    0 12px
+    10px;
+
+}
+
+
+.tags span{
+
+  background:#f1f5fa;
+
+  color:#728198;
+
+  padding:4px 6px;
+
+  border-radius:5px;
+
+  font-size:6px;
+
+}
+
+
+/* ================= FOOTER ================= */
+
+
+footer{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  color:#9aa5b6;
+
+  font-size:9px;
+
+  padding-top:14px;
+
+}
+
+
+/* ================= TOAST ================= */
+
+
+.toast{
+
+  position:fixed;
+
+  right:20px;
+
+  bottom:20px;
+
+  background:white;
+
+  border:
+    1px solid
+    var(--border);
+
+  box-shadow:
+    0 15px 40px
+    rgba(19,43,79,.15);
+
+  border-radius:10px;
+
+  padding:11px 13px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  min-width:190px;
+
+  transform:
+    translateY(120px);
+
+  opacity:0;
+
+  pointer-events:none;
+
+  transition:.25s;
+
+  z-index:100;
+
+}
+
+
+.toast.show{
+
+  transform:translateY(0);
+
+  opacity:1;
+
+}
+
+
+.toast strong{
+
+  font-size:8px;
+
+}
+
+
+.toast small{
+
+  font-size:7px;
+
+  color:#8794a7;
+
+  margin-top:3px;
+
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+
+@media(max-width:1250px){
+
+  .dashboard-grid{
+
+    grid-template-columns:
+      1.2fr
+      1fr;
+
+  }
+
+  .summary-card{
+
+    grid-column:span 2;
+
+  }
+
+  .lower-grid{
+
+    grid-template-columns:
+      1fr
+      1fr;
+
+  }
+
+  .physician{
+
+    grid-column:span 2;
+
+  }
+
+}
+
+
+@media(max-width:900px){
+
+  .sidebar{
+
+    width:70px;
+
+    padding:18px 9px;
+
+  }
+
+  .brand{
+
+    justify-content:center;
+
+    padding:
+      3px
+      0
+      28px;
+
+  }
+
+  .brand>div:last-child,
+  .menu-title,
+  .privacy div{
+
+    display:none;
+
+  }
+
+  .nav-item{
+
+    justify-content:center;
+
+    padding:0;
+
+  }
+
+  .nav-item span{
+
+    margin:0;
+
+  }
+
+  .main{
+
+    margin-left:70px;
+
+    padding:13px;
+
+  }
+
+  .doctor>div:not(.doctor-avatar){
+
+    display:none;
+
+  }
+
+  .dashboard-grid,
+  .lower-grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .summary-card,
+  .physician{
+
+    grid-column:auto;
+
+  }
+
+}
+
+
+@media(max-width:620px){
+
+  .main{
+
+    padding:9px;
+
+  }
+
+  .search{
+
+    display:none;
+
+  }}
+ /* =====================================================
+   FONT SIZE FIX
+   Paste this at the VERY END of your CSS
+   ===================================================== */
+
+/* Main text */
+body {
+  font-size: 15px;
+}
+
+/* Sidebar */
+.brand h2 {
+  font-size: 20px;
+}
+
+.brand small {
+  font-size: 11px;
+}
+
+.menu-title {
+  font-size: 11px;
+}
+
+.nav-item {
+  font-size: 14px;
+}
+
+.nav-item span {
+  font-size: 18px;
+}
+
+.privacy b {
+  font-size: 12px;
+}
+
+.privacy small {
+  font-size: 10px;
+}
+
+/* Topbar */
+.search input {
+  font-size: 13px;
+}
+
+.search kbd {
+  font-size: 10px;
+}
+
+.doctor b {
+  font-size: 12px;
+}
+
+.doctor small {
+  font-size: 10px;
+}
+
+.new-visit {
+  font-size: 12px;
+}
+
+/* Patient */
+.patient-name h1 {
+  font-size: 24px;
+}
+
+.active-status {
+  font-size: 10px;
+}
+
+.patient-info p {
+  font-size: 11px;
+}
+
+.abha b {
+  font-size: 11px;
+}
+
+.abha small {
+  font-size: 10px;
+}
+
+/* Workflow */
+.workflow-heading label {
+  font-size: 9px;
+}
+
+.workflow-heading h3 {
+  font-size: 15px;
+}
+
+.consent {
+  font-size: 10px;
+}
+
+.step b {
+  font-size: 11px;
+}
+
+.step small {
+  font-size: 9px;
+}
+
+/* Card headings */
+.card-header h3 {
+  font-size: 16px;
+}
+
+.card-header small {
+  font-size: 11px;
+}
+
+/* Conversation */
+.live {
+  font-size: 9px;
+}
+
+.languages > span {
+  font-size: 10px;
+}
+
+.language {
+  font-size: 10px;
+}
+
+.bubble b {
+  font-size: 9px;
+}
+
+.bubble p {
+  font-size: 14px;
+}
+
+.bubble small {
+  font-size: 8px;
+}
+
+.quick-buttons button {
+  font-size: 9px;
+}
+
+.composer input {
+  font-size: 11px;
+}
+
+.send {
+  font-size: 10px;
+}
+
+.disclaimer {
+  font-size: 9px;
+}
+
+/* Interview */
+.beta {
+  font-size: 9px;
+}
+
+.completion b {
+  font-size: 11px;
+}
+
+.completion small {
+  font-size: 9px;
+}
+
+.interview-item b {
+  font-size: 13px;
+}
+
+.interview-item small {
+  font-size: 11px;
+}
+
+.interview-item > span:last-child {
+  font-size: 9px;
+}
+
+.adaptive-tip p {
+  font-size: 9px;
+}
+
+.adaptive-tip b {
+  font-size: 10px;
+}
+
+/* Summary */
+.generated {
+  font-size: 9px;
+}
+
+.summary-box label {
+  font-size: 9px;
+}
+
+.summary-box b {
+  font-size: 13px;
+}
+
+.summary-box small {
+  font-size: 11px;
+}
+
+.confidence b {
+  font-size: 10px;
+}
+
+.confidence p {
+  font-size: 8px;
+}
+
+.confidence button {
+  font-size: 9px;
+}
+
+/* Documents */
+.upload,
+.view-all {
+  font-size: 10px;
+}
+
+.document b {
+  font-size: 10px;
+}
+
+.document small {
+  font-size: 8px;
+}
+
+/* Timeline */
+.timeline-item b {
+  font-size: 10px;
+}
+
+.timeline-item small {
+  font-size: 9px;
+}
+
+/* Physician */
+.review-status {
+  font-size: 9px;
+}
+
+.review-box label {
+  font-size: 8px;
+}
+
+.review-box b {
+  font-size: 11px;
+}
+
+.review-box p {
+  font-size: 9px;
+}
+
+.review-buttons button {
+  font-size: 9px;
+}
+
+.tags span {
+  font-size: 8px;
+}
+
+/* Footer */
+footer {
+  font-size: 9px;
+}
+
+/* Toast */
+.toast strong {
+  font-size: 10px;
+}
+
+.toast small {
+  font-size: 9px;
+}
+
+
+/* =====================================================
+   FIX MAIN WIDTH
+   ===================================================== */
+
+.main {
+  width: calc(100% - 235px);
+}
+/* ================= USER FRIENDLY POLISH ================= */
+
+.card,
+.patient-card,
+.workflow-card{
+  overflow:hidden;
+}
+
+.card-header{
+  padding:14px 16px;
+}
+
+.patient-card{
+  padding:17px 20px;
+}
+
+.workflow-card{
+  padding:15px 18px;
+}
+
+.summary-box{
+  padding:11px;
+}
+
+.interview-item{
+  padding:11px 8px;
+}
+
+.document{
+  padding:10px 5px;
+}
+
+.review-box{
+  padding:12px;
+}
+
+/* Better clickable buttons */
+button{
+  min-height:36px;
+}
+
+/* Better input experience */
+input{
+  min-height:38px;
+}
+
+/* Better readability */
+.bubble p,
+.patient-info p,
+.summary-box small,
+.document small,
+.timeline-item small{
+  line-height:1.5;
+}
+
+/* Don't let important text become too tiny */
+.card-header h3,
+.interview-item b,
+.summary-box b,
+.document b,
+.review-box b{
+  line-height:1.3;
+}
+.search {
+  position: relative;
+  z-index: 10;
+}
+
+.search input {
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
+}

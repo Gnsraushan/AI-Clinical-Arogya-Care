@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physician Review · ArogyaCare</title>
+<meta name="description" content="Review the professional feedback associated with your clinical intake.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='physician_review.css') }}">
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="app-shell">
+
+  <!-- ============ SIDE NAVIGATION ============ -->
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 3C14 3 6 8.5 6 15.5C6 19.6421 9.35786 23 13.5 23H14.5C18.6421 23 22 19.6421 22 15.5C22 8.5 14 3 14 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M14 10V18M10.5 14H17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">ArogyaCare</span>
+          <span class="brand-tag">AI-Powered Clinical Intake System</span>
+        </span>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Open navigation menu">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 6H19M3 11H19M3 16H19" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <nav class="primary-nav" id="primaryNav" aria-label="Patient navigation">
+        <a href="{{ url_for('patient_dashboard') if 'patient_dashboard' in (url_map_endpoints|default([])) else '#' }}" class="nav-link" data-fallback="true">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2.5 8.5L9 3L15.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 7.5V15H14V7.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          Home
+        </a>
+        <a href="#" class="nav-link" data-fallback="true">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 15C3.5 12 6 10.5 9 10.5C12 10.5 14.5 12 14.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          My Details
+        </a>
+        <a href="#" class="nav-link" data-fallback="true">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4.5H15V12H7L4 14.5V12H3V4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 8H12M6 10.3H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          AI Conversation
+        </a>
+        <a href="#" class="nav-link" data-fallback="true">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 4.5V9L12 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          History
+        </a>
+        <a href="#" class="nav-link is-active" aria-current="page">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 3H12L14.5 5.5V15H4V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 8.3L8.2 10L11.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Physician Review
+        </a>
+        <a href="#" class="nav-link" data-fallback="true">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5.5 3H10L13 6V15H5.5V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.3 9.3H11M7.3 11.6H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Documents
+        </a>
+        <a href="#" class="nav-link" data-fallback="true">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="2.3" stroke="currentColor" stroke-width="1.5"/><path d="M9 3.5V5M9 13V14.5M14.5 9H13M5 9H3.5M12.6 5.4L11.6 6.4M6.4 11.6L5.4 12.6M12.6 12.6L11.6 11.6M6.4 6.4L5.4 5.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Settings
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="nav-scrim" id="navScrim" hidden></div>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main id="main-content" class="page">
+    <div class="page-inner">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="#" data-fallback="true">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Physician Review</span>
+      </nav>
+
+      <div class="page-header reveal">
+        <div>
+          <h1 class="page-title">Physician Review</h1>
+          <p class="page-subtitle">Review the professional feedback associated with your clinical intake.</p>
+        </div>
+      </div>
+
+      <!-- ============ REVIEW STATUS ============ -->
+      <section class="status-band reveal" aria-labelledby="status-heading">
+        <h2 id="status-heading" class="visually-hidden">Review status</h2>
+
+        {% set status_value = review_status if review_status is defined and review_status else (physician_review.status if physician_review is defined and physician_review and physician_review.status else none) %}
+
+        {% if status_value %}
+          {% set status_lower = status_value|lower %}
+          <div class="status-pill
+            {%- if 'reviewed' in status_lower and 'follow' not in status_lower %} status-pill--done
+            {%- elif 'follow' in status_lower %} status-pill--attention
+            {%- elif 'under' in status_lower %} status-pill--progress
+            {%- else %} status-pill--pending
+            {%- endif %}">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-text">{{ status_value }}</span>
+          </div>
+          <p class="status-caption">
+            {% if 'reviewed' in status_lower and 'follow' not in status_lower %}
+              A healthcare professional has completed their review of your intake case.
+            {% elif 'follow' in status_lower %}
+              Your reviewer has requested a follow-up. See the Next Steps section below.
+            {% elif 'under' in status_lower %}
+              Your case is currently being reviewed by a healthcare professional.
+            {% else %}
+              Your case has been received and is in the review queue.
+            {% endif %}
+          </p>
+        {% else %}
+          <div class="status-pill status-pill--muted">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-text">Review status not available yet</span>
+          </div>
+        {% endif %}
+      </section>
+
+      <div class="content-grid">
+
+        <div class="content-main">
+
+          <!-- ============ CASE OVERVIEW ============ -->
+          {% set case_history = history if history is defined and history else (patient_history if patient_history is defined else none) %}
+          <section class="panel reveal" aria-labelledby="case-heading">
+            <div class="panel-head">
+              <h2 id="case-heading" class="panel-title">Case Overview</h2>
+              <p class="panel-hint">Information from your clinical intake, shown here for reference.</p>
+            </div>
+
+            {% if case_history %}
+            <dl class="fact-list">
+              <div class="fact-row">
+                <dt>Main problem</dt>
+                <dd>{{ case_history.main_problem if case_history.main_problem else "Not available" }}</dd>
+              </div>
+              <div class="fact-row">
+                <dt>Duration</dt>
+                <dd>{{ case_history.duration if case_history.duration else "Not available" }}</dd>
+              </div>
+              <div class="fact-row">
+                <dt>Symptoms</dt>
+                <dd>{{ case_history.symptoms if case_history.symptoms else "Not available" }}</dd>
+              </div>
+              <div class="fact-row">
+                <dt>Medical history</dt>
+                <dd>{{ case_history.medical_history if case_history.medical_history else "Not available" }}</dd>
+              </div>
+              <div class="fact-row">
+                <dt>Current medicines</dt>
+                <dd>{{ case_history.medicines if case_history.medicines else "Not available" }}</dd>
+              </div>
+              <div class="fact-row">
+                <dt>Allergies</dt>
+                <dd>{{ case_history.allergies if case_history.allergies else "Not available" }}</dd>
+              </div>
+              {% if case_history.created_at %}
+              <div class="fact-row">
+                <dt>Submitted on</dt>
+                <dd>{{ case_history.created_at }}</dd>
+              </div>
+              {% endif %}
+            </dl>
+            {% else %}
+            <p class="empty-inline">No intake case information is available yet.</p>
+            {% endif %}
+          </section>
+
+          <!-- ============ AI INTAKE SUMMARY ============ -->
+          {% if case_history and case_history.summary %}
+          <section class="panel reveal" aria-labelledby="ai-summary-heading">
+            <div class="panel-head panel-head--tagged">
+              <div>
+                <h2 id="ai-summary-heading" class="panel-title">AI Intake Summary</h2>
+                <p class="panel-hint">Generated from your intake conversation</p>
+              </div>
+              <span class="source-tag source-tag--ai">AI-generated</span>
+            </div>
+
+            <div class="summary-text-wrap">
+              <p class="summary-text" id="aiSummaryText" data-collapsed="true">{{ case_history.summary }}</p>
+              <button type="button" class="text-toggle" id="aiSummaryToggle" aria-expanded="false" aria-controls="aiSummaryText" hidden>
+                Show more
+              </button>
+            </div>
+
+            <p class="disclaimer">
+              This AI-generated summary is intended to help organize your intake information. It does not replace professional medical advice or clinical judgment.
+            </p>
+          </section>
+          {% endif %}
+
+          <!-- ============ PHYSICIAN REVIEW ============ -->
+          <section class="panel panel--primary reveal" aria-labelledby="review-heading">
+            <div class="panel-head panel-head--tagged">
+              <div>
+                <h2 id="review-heading" class="panel-title">Professional Review</h2>
+              </div>
+              {% if physician_review %}
+              <span class="source-tag source-tag--physician">Physician review</span>
+              {% endif %}
+            </div>
+
+            {% if physician_review %}
+            <div class="review-card">
+              <div class="review-grid">
+                {% if physician_review.physician_name %}
+                <div class="review-field">
+                  <span class="review-label">Reviewed by</span>
+                  <span class="review-value">Dr. {{ physician_review.physician_name }}</span>
+                </div>
+                {% endif %}
+
+                {% if physician_review.review_date %}
+                <div class="review-field">
+                  <span class="review-label">Review date</span>
+                  <span class="review-value">{{ physician_review.review_date }}</span>
+                </div>
+                {% elif created_at %}
+                <div class="review-field">
+                  <span class="review-label">Review date</span>
+                  <span class="review-value">{{ created_at }}</span>
+                </div>
+                {% endif %}
+
+                {% if status_value %}
+                <div class="review-field">
+                  <span class="review-label">Status</span>
+                  <span class="review-value">{{ status_value }}</span>
+                </div>
+                {% endif %}
+              </div>
+
+              {% if physician_review.remarks %}
+              <div class="review-remarks">
+                <span class="review-label">Remarks</span>
+                <p class="review-remarks-text">{{ physician_review.remarks }}</p>
+              </div>
+              {% endif %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+              <div class="empty-illustration" aria-hidden="true">
+                <svg width="120" height="96" viewBox="0 0 120 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="22" y="14" width="60" height="72" rx="6" stroke="currentColor" stroke-width="2" fill="none"/>
+                  <path d="M34 32H70M34 44H70M34 56H58" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="90" cy="66" r="21" fill="var(--surface-soft-2)" stroke="currentColor" stroke-width="2"/>
+                  <path d="M82 66L88 72L99 59" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+                  <path d="M90 58V66L95 70" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3 class="empty-title">Your case is awaiting professional review</h3>
+              <p class="empty-text">Once your clinical intake has been reviewed, the available professional feedback will appear here.</p>
+            </div>
+            {% endif %}
+          </section>
+
+          <!-- ============ FOLLOW-UP / NEXT STEPS ============ -->
+          {% if physician_review and physician_review.follow_up %}
+          <section class="panel reveal" aria-labelledby="next-steps-heading">
+            <div class="panel-head panel-head--tagged">
+              <div>
+                <h2 id="next-steps-heading" class="panel-title">Next Steps</h2>
+              </div>
+              <span class="source-tag source-tag--physician">Physician review</span>
+            </div>
+            <p class="next-steps-text">{{ physician_review.follow_up }}</p>
+          </section>
+          {% endif %}
+
+        </div>
+
+        <!-- ============ ACTIONS SIDEBAR ============ -->
+        <aside class="content-side reveal" aria-label="Related actions">
+          <div class="panel panel--compact">
+            <h2 class="panel-title panel-title--small">Related</h2>
+            <div class="action-list">
+              <a href="#" class="action-link" data-fallback="true">
+                <span>Back to Dashboard</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3.5L11 8L6 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#" class="action-link" data-fallback="true">
+                <span>View AI Conversation</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3.5L11 8L6 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#" class="action-link" data-fallback="true">
+                <span>View History</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3.5L11 8L6 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='physician_review.js') }}"></script>
+</body>
+</html>
