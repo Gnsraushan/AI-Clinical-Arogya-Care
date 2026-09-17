@@ -76,13 +76,27 @@ app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_SIZE
 
 def get_db_connection():
 
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Raushan@2nd",
-        database="arogyacare"
-    )
+    db_host = os.getenv("DB_HOST")
 
+    # LOCAL MYSQL
+    if not db_host:
+        return mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Raushan@2nd",
+            database="arogyacare"
+        )
+
+    # RENDER + AIVEN MYSQL
+    return mysql.connector.connect(
+        host=db_host,
+        port=int(os.getenv("DB_PORT", "3306")),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME", "defaultdb"),
+        ssl_verify_cert=False,
+        ssl_verify_identity=False
+    )
 
 # =========================================================
 # SAFE CLOSE
