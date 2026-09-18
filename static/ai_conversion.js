@@ -1,4 +1,3 @@
-```javascript
 document.addEventListener("DOMContentLoaded", function () {
 
     // ================================
@@ -9,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (menuButton && mobileDrawer) {
         menuButton.addEventListener("click", function () {
-
             const isOpen =
                 menuButton.getAttribute("aria-expanded") === "true";
 
@@ -61,23 +59,37 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
 
                 const generateUrl =
-    generateButton.getAttribute("data-generate-url");
+                    generateButton.getAttribute("data-generate-url");
 
-const response = await fetch(
-    generateUrl,
-    {
-        method: "POST",
-        headers: {
-            "Accept": "application/json"
-        },
-        credentials: "same-origin"
-    }
-);
+                if (!generateUrl) {
+                    throw new Error(
+                        "Generate Report URL is missing."
+                    );
+                }
 
-                const data = await response.json();
+                const response = await fetch(
+                    generateUrl,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json"
+                        },
+                        credentials: "same-origin"
+                    }
+                );
+
+                let data;
+
+                try {
+                    data = await response.json();
+                } catch (jsonError) {
+                    throw new Error(
+                        "Server ne valid response nahi diya. Status: " +
+                        response.status
+                    );
+                }
 
                 if (!response.ok || !data.success) {
-
                     throw new Error(
                         data.message ||
                         "Report generate nahi ho payi."
@@ -86,73 +98,51 @@ const response = await fetch(
 
 
                 // ================================
-                // GET GENERATED HISTORY
+                // GENERATED HISTORY
                 // ================================
                 const history = data.history || {};
 
 
                 // ================================
-                // UPDATE SUMMARY
+                // SUMMARY
                 // ================================
                 const summaryElement =
                     document.getElementById("summaryText");
 
                 if (summaryElement) {
-
                     summaryElement.textContent =
-                        history.summary ||
-                        "Not reported";
+                        history.summary || "Not reported";
                 }
 
 
                 // ================================
-                // UPDATE MAIN PROBLEM
+                // OTHER FIELDS
                 // ================================
                 updateElement(
                     "mainProblem",
                     history.main_problem
                 );
 
-
-                // ================================
-                // UPDATE DURATION
-                // ================================
                 updateElement(
                     "duration",
                     history.duration
                 );
 
-
-                // ================================
-                // UPDATE SYMPTOMS
-                // ================================
                 updateElement(
                     "symptoms",
                     history.symptoms
                 );
 
-
-                // ================================
-                // UPDATE MEDICAL HISTORY
-                // ================================
                 updateElement(
                     "medicalHistory",
                     history.medical_history
                 );
 
-
-                // ================================
-                // UPDATE MEDICINES
-                // ================================
                 updateElement(
                     "medicines",
                     history.medicines
                 );
 
-
-                // ================================
-                // UPDATE ALLERGIES
-                // ================================
                 updateElement(
                     "allergies",
                     history.allergies
@@ -166,7 +156,9 @@ const response = await fetch(
                     "Report Generated ✓";
 
 
-                // Scroll to summary
+                // ================================
+                // SCROLL TO SUMMARY
+                // ================================
                 const summarySection =
                     document.getElementById("summary-heading");
 
@@ -178,7 +170,9 @@ const response = await fetch(
                 }
 
 
-                // Restore button
+                // ================================
+                // RESET BUTTON
+                // ================================
                 setTimeout(function () {
 
                     generateButton.disabled = false;
@@ -187,7 +181,6 @@ const response = await fetch(
                         "Generate Report";
 
                 }, 2500);
-
 
             } catch (error) {
 
@@ -246,10 +239,7 @@ const response = await fetch(
                     "Copied ✓";
 
                 setTimeout(function () {
-
-                    copyButton.textContent =
-                        oldText;
-
+                    copyButton.textContent = oldText;
                 }, 2000);
 
             } catch (error) {
@@ -259,7 +249,6 @@ const response = await fetch(
                     error
                 );
 
-                // Fallback
                 const textarea =
                     document.createElement("textarea");
 
@@ -277,6 +266,7 @@ const response = await fetch(
 
                 document.body.removeChild(textarea);
             }
+
         });
     }
 
@@ -301,13 +291,12 @@ function updateElement(elementId, value) {
         return;
     }
 
-    if (value === null ||
+    if (
+        value === null ||
         value === undefined ||
-        String(value).trim() === "") {
-
-        element.textContent =
-            "Not reported";
-
+        String(value).trim() === ""
+    ) {
+        element.textContent = "Not reported";
         return;
     }
 
@@ -337,9 +326,7 @@ function setupSummaryToggle() {
     const maxLength = 250;
 
     if (fullText.length <= maxLength) {
-
         toggleButton.style.display = "none";
-
         return;
     }
 
@@ -357,7 +344,6 @@ function setupSummaryToggle() {
         "false"
     );
 
-
     toggleButton.addEventListener(
         "click",
         function () {
@@ -366,7 +352,6 @@ function setupSummaryToggle() {
                 toggleButton.getAttribute(
                     "aria-expanded"
                 ) === "true";
-
 
             if (expanded) {
 
@@ -398,4 +383,3 @@ function setupSummaryToggle() {
         }
     );
 }
-```
