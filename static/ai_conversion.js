@@ -1,108 +1,398 @@
-/**
- * ArogyaCare - AI Conversation Interface Interactions
- * Standard: Vanilla JavaScript (No Frameworks)
- */
+```javascript
+document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener('DOMContentLoaded', () => {
-  initMobileNavigation();
-  initAutoScrollStream();
-  initSummaryCollapse();
-  initCopySummary();
+    // ================================
+    // MOBILE MENU
+    // ================================
+    const menuButton = document.getElementById("mobileMenuToggle");
+    const mobileDrawer = document.getElementById("mobileDrawer");
+
+    if (menuButton && mobileDrawer) {
+        menuButton.addEventListener("click", function () {
+
+            const isOpen =
+                menuButton.getAttribute("aria-expanded") === "true";
+
+            if (isOpen) {
+                menuButton.setAttribute("aria-expanded", "false");
+                mobileDrawer.setAttribute("aria-hidden", "true");
+                mobileDrawer.classList.remove("open");
+            } else {
+                menuButton.setAttribute("aria-expanded", "true");
+                mobileDrawer.setAttribute("aria-hidden", "false");
+                mobileDrawer.classList.add("open");
+            }
+        });
+    }
+
+
+    // ================================
+    // AUTO SCROLL CONVERSATION
+    // ================================
+    const conversationStream =
+        document.getElementById("conversationStream");
+
+    if (conversationStream) {
+        conversationStream.scrollTop =
+            conversationStream.scrollHeight;
+    }
+
+
+    // ================================
+    // GENERATE REPORT
+    // ================================
+    const generateButton =
+        document.getElementById("generateHistoryBtn");
+
+    if (generateButton) {
+
+        generateButton.addEventListener("click", async function () {
+
+            if (generateButton.disabled) {
+                return;
+            }
+
+            generateButton.disabled = true;
+
+            const oldText = generateButton.textContent;
+
+            generateButton.textContent = "Generating...";
+
+            try {
+
+                const response = await fetch(
+                    "/api/history/generate",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json"
+                        },
+                        credentials: "same-origin"
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Report generate nahi ho payi."
+                    );
+                }
+
+
+                // ================================
+                // GET GENERATED HISTORY
+                // ================================
+                const history = data.history || {};
+
+
+                // ================================
+                // UPDATE SUMMARY
+                // ================================
+                const summaryElement =
+                    document.getElementById("summaryText");
+
+                if (summaryElement) {
+
+                    summaryElement.textContent =
+                        history.summary ||
+                        "Not reported";
+                }
+
+
+                // ================================
+                // UPDATE MAIN PROBLEM
+                // ================================
+                updateElement(
+                    "mainProblem",
+                    history.main_problem
+                );
+
+
+                // ================================
+                // UPDATE DURATION
+                // ================================
+                updateElement(
+                    "duration",
+                    history.duration
+                );
+
+
+                // ================================
+                // UPDATE SYMPTOMS
+                // ================================
+                updateElement(
+                    "symptoms",
+                    history.symptoms
+                );
+
+
+                // ================================
+                // UPDATE MEDICAL HISTORY
+                // ================================
+                updateElement(
+                    "medicalHistory",
+                    history.medical_history
+                );
+
+
+                // ================================
+                // UPDATE MEDICINES
+                // ================================
+                updateElement(
+                    "medicines",
+                    history.medicines
+                );
+
+
+                // ================================
+                // UPDATE ALLERGIES
+                // ================================
+                updateElement(
+                    "allergies",
+                    history.allergies
+                );
+
+
+                // ================================
+                // SUCCESS
+                // ================================
+                generateButton.textContent =
+                    "Report Generated ✓";
+
+
+                // Scroll to summary
+                const summarySection =
+                    document.getElementById("summary-heading");
+
+                if (summarySection) {
+                    summarySection.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+
+
+                // Restore button
+                setTimeout(function () {
+
+                    generateButton.disabled = false;
+
+                    generateButton.textContent =
+                        "Generate Report";
+
+                }, 2500);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Generate Report Error:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Something went wrong while generating the report."
+                );
+
+                generateButton.disabled = false;
+
+                generateButton.textContent =
+                    oldText;
+            }
+
+        });
+    }
+
+
+    // ================================
+    // COPY SUMMARY
+    // ================================
+    const copyButton =
+        document.getElementById("copySummaryBtn");
+
+    if (copyButton) {
+
+        copyButton.addEventListener("click", async function () {
+
+            const summaryElement =
+                document.getElementById("summaryText");
+
+            if (!summaryElement) {
+                return;
+            }
+
+            const text =
+                summaryElement.textContent.trim();
+
+            if (!text) {
+                return;
+            }
+
+            try {
+
+                await navigator.clipboard.writeText(text);
+
+                const oldText =
+                    copyButton.textContent;
+
+                copyButton.textContent =
+                    "Copied ✓";
+
+                setTimeout(function () {
+
+                    copyButton.textContent =
+                        oldText;
+
+                }, 2000);
+
+            } catch (error) {
+
+                console.error(
+                    "Copy Error:",
+                    error
+                );
+
+                // Fallback
+                const textarea =
+                    document.createElement("textarea");
+
+                textarea.value = text;
+
+                document.body.appendChild(textarea);
+
+                textarea.select();
+
+                try {
+                    document.execCommand("copy");
+                } catch (copyError) {
+                    console.error(copyError);
+                }
+
+                document.body.removeChild(textarea);
+            }
+        });
+    }
+
+
+    // ================================
+    // SUMMARY SHOW MORE / LESS
+    // ================================
+    setupSummaryToggle();
+
 });
 
-/**
- * Mobile Navigation Drawer Toggle
- */
-function initMobileNavigation() {
-  const toggleBtn = document.getElementById('mobileMenuToggle');
-  const drawer = document.getElementById('mobileDrawer');
 
-  if (!toggleBtn || !drawer) return;
+// ============================================
+// UPDATE FIELD
+// ============================================
+function updateElement(elementId, value) {
 
-  toggleBtn.addEventListener('click', () => {
-    const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-    toggleBtn.setAttribute('aria-expanded', !isExpanded);
-    
-    if (isExpanded) {
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden', 'true');
-    } else {
-      drawer.classList.add('open');
-      drawer.setAttribute('aria-hidden', 'false');
+    const element =
+        document.getElementById(elementId);
+
+    if (!element) {
+        return;
     }
-  });
-}
 
-/**
- * Auto-Scroll Conversation Stream to Latest Message on Load
- */
-function initAutoScrollStream() {
-  const stream = document.getElementById('conversationStream');
-  if (stream) {
-    stream.scrollTop = stream.scrollHeight;
-  }
-}
+    if (value === null ||
+        value === undefined ||
+        String(value).trim() === "") {
 
-/**
- * Truncate/Expand Long AI Summaries
- */
-function initSummaryCollapse() {
-  const toggleBtn = document.getElementById('toggleSummaryExpand');
-  const summaryText = document.getElementById('summaryText');
+        element.textContent =
+            "Not reported";
 
-  if (!toggleBtn || !summaryText) return;
-
-  const fullText = summaryText.textContent.trim();
-  const maxLength = 250;
-
-  if (fullText.length > maxLength) {
-    const truncatedText = fullText.slice(0, maxLength) + '...';
-    summaryText.textContent = truncatedText;
-
-    toggleBtn.addEventListener('click', () => {
-      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-
-      if (isExpanded) {
-        summaryText.textContent = truncatedText;
-        toggleBtn.textContent = 'Show more';
-        toggleBtn.setAttribute('aria-expanded', 'false');
-      } else {
-        summaryText.textContent = fullText;
-        toggleBtn.textContent = 'Show less';
-        toggleBtn.setAttribute('aria-expanded', 'true');
-      }
-    });
-  } else {
-    toggleBtn.style.display = 'none';
-  }
-}
-
-/**
- * Copy AI Summary Text to Clipboard with Visual Feedback
- */
-function initCopySummary() {
-  const copyBtn = document.getElementById('copySummaryBtn');
-  const summaryText = document.getElementById('summaryText');
-
-  if (!copyBtn || !summaryText) return;
-
-  copyBtn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(summaryText.textContent.trim());
-      
-      const originalHTML = copyBtn.innerHTML;
-      copyBtn.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Copied
-      `;
-      copyBtn.style.borderColor = 'var(--color-primary-brand)';
-
-      setTimeout(() => {
-        copyBtn.innerHTML = originalHTML;
-        copyBtn.style.borderColor = '';
-      }, 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
+        return;
     }
-  });
+
+    element.textContent =
+        String(value).trim();
 }
+
+
+// ============================================
+// SUMMARY TOGGLE
+// ============================================
+function setupSummaryToggle() {
+
+    const summaryElement =
+        document.getElementById("summaryText");
+
+    const toggleButton =
+        document.getElementById("toggleSummaryExpand");
+
+    if (!summaryElement || !toggleButton) {
+        return;
+    }
+
+    const fullText =
+        summaryElement.textContent.trim();
+
+    const maxLength = 250;
+
+    if (fullText.length <= maxLength) {
+
+        toggleButton.style.display = "none";
+
+        return;
+    }
+
+    const shortText =
+        fullText.substring(0, maxLength) + "...";
+
+    summaryElement.textContent =
+        shortText;
+
+    toggleButton.textContent =
+        "Show more";
+
+    toggleButton.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+
+    toggleButton.addEventListener(
+        "click",
+        function () {
+
+            const expanded =
+                toggleButton.getAttribute(
+                    "aria-expanded"
+                ) === "true";
+
+
+            if (expanded) {
+
+                summaryElement.textContent =
+                    shortText;
+
+                toggleButton.textContent =
+                    "Show more";
+
+                toggleButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            } else {
+
+                summaryElement.textContent =
+                    fullText;
+
+                toggleButton.textContent =
+                    "Show less";
+
+                toggleButton.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+            }
+
+        }
+    );
+}
+```
