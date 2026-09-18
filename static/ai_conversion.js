@@ -60,16 +60,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
 
-                const response = await fetch(
-                    "/api/history/generate",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Accept": "application/json"
-                        },
-                        credentials: "same-origin"
-                    }
-                );
+                const generateUrl =
+    generateButton.getAttribute("data-generate-url");
+
+const response = await fetch(
+    generateUrl,
+    {
+        method: "POST",
+        headers: {
+            "Accept": "application/json"
+        },
+        credentials: "same-origin"
+    }
+);
 
                 const data = await response.json();
 

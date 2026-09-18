@@ -692,13 +692,13 @@
 
 
                     <!-- GENERATE REPORT BUTTON -->
-                    <button
-                        type="button"
-                        id="generateHistoryBtn"
-                        class="generate-history-btn"
-                    >
-                        Generate Report
-                    </button>
+                   <button
+    type="button"
+    id="generateHistoryBtn"
+    data-generate-url="{{ url_for('generate_history') }}"
+>
+    Generate Report
+</button>
 
                 </div>
 
