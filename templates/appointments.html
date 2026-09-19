@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Appointments | ArogyaCare</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='appointments.css') }}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>ArogyaCare</h2>
+                <span>Patient Portal</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="{{ url_for('patient_dashboard') }}" class="nav-link">
+                <span>⌂</span>
+                <span>Home</span>
+            </a>
+
+            <a href="{{ url_for('patient_details') }}" class="nav-link">
+                <span>👤</span>
+                <span>My Details</span>
+            </a>
+
+            <a href="{{ url_for('ai_conversation') }}" class="nav-link">
+                <span>✦</span>
+                <span>AI Conversation</span>
+            </a>
+
+            <a href="{{ url_for('patient_history') }}" class="nav-link">
+                <span>▣</span>
+                <span>History</span>
+            </a>
+
+            <a href="{{ url_for('patient_documents') }}" class="nav-link">
+                <span>▤</span>
+                <span>Documents</span>
+            </a>
+
+            <a href="{{ url_for('find_doctor') }}" class="nav-link">
+                <span>⚕</span>
+                <span>Find Doctor</span>
+            </a>
+
+            <a href="{{ url_for('appointments') }}"
+               class="nav-link active">
+                <span>▦</span>
+                <span>My Appointments</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="{{ url_for('patient_details') }}" class="nav-link">
+                <span>⚙</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="nav-link logout">
+                <span>↪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>My Appointments</h1>
+                <p>Manage your upcoming and previous appointments.</p>
+            </div>
+
+            <div class="patient-chip">
+                <div class="avatar">
+                    {{ session.get('full_name', 'P')[0]|upper }}
+                </div>
+
+                <div>
+                    <strong>
+                        {{ session.get('full_name', 'Patient') }}
+                    </strong>
+
+                    <span>Patient</span>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- PAGE HEADER -->
+        <section class="page-header">
+
+            <div>
+                <span class="eyebrow">CARE MANAGEMENT</span>
+
+                <h2>Your Appointments</h2>
+
+                <p>
+                    View and manage your scheduled consultations
+                    with healthcare professionals.
+                </p>
+            </div>
+
+            <a href="{{ url_for('find_doctor') }}"
+               class="primary-btn">
+                + Find a Doctor
+            </a>
+
+        </section>
+
+
+        <!-- TABS -->
+        <div class="tabs">
+
+            <button class="tab active" data-status="upcoming">
+                Upcoming
+            </button>
+
+            <button class="tab" data-status="completed">
+                Completed
+            </button>
+
+            <button class="tab" data-status="cancelled">
+                Cancelled
+            </button>
+
+        </div>
+
+
+        <!-- APPOINTMENTS -->
+        <section id="appointmentsContainer"
+                 class="appointments-container">
+
+            <div class="loading-card">
+                <div class="loader"></div>
+                <p>Loading your appointments...</p>
+            </div>
+
+        </section>
+
+
+        <!-- EMPTY STATE -->
+        <section id="emptyState"
+                 class="empty-state"
+                 style="display:none;">
+
+            <div class="empty-icon">▦</div>
+
+            <h3>No appointments found</h3>
+
+            <p>
+                You don't have any appointments in this category yet.
+            </p>
+
+            <a href="{{ url_for('find_doctor') }}"
+               class="primary-btn">
+                Find a Doctor
+            </a>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='appointments.js') }}"></script>
+
+</body>
+</html>

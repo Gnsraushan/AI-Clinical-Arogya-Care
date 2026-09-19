@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Appointments | ArogyaCare</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='doctor_appointments.css') }}">
+</head>
+
+<body>
+
+<div class="doctor-page">
+
+    <!-- SIDEBAR -->
+    <aside class="doctor-sidebar">
+
+        <div class="doctor-brand">
+            <div class="brand-icon">A</div>
+
+            <div>
+                <h2>ArogyaCare</h2>
+                <span>Doctor Portal</span>
+            </div>
+        </div>
+
+        <nav class="doctor-nav">
+
+            <a href="{{ url_for('dashboard') }}" class="doctor-nav-link">
+                <span>⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('dashboard') }}" class="doctor-nav-link">
+                <span>♙</span>
+                <span>Patients</span>
+            </a>
+
+            <a href="{{ url_for('doctor_appointments') }}"
+               class="doctor-nav-link active">
+                <span>▦</span>
+                <span>Appointments</span>
+            </a>
+
+        </nav>
+
+        <div class="doctor-sidebar-bottom">
+
+            <div class="doctor-profile-mini">
+                <div class="doctor-avatar">
+                    {{ (session.get('full_name') or 'D')[0]|upper }}
+                </div>
+
+                <div>
+                    <strong>
+                        {{ session.get('full_name') or 'Doctor' }}
+                    </strong>
+
+                    <span>
+                        {{ session.get('staff_role') or 'Clinical Staff' }}
+                    </span>
+                </div>
+            </div>
+
+            <a href="{{ url_for('logout') }}"
+               class="doctor-nav-link logout">
+                <span>↪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="doctor-main">
+
+        <!-- TOPBAR -->
+        <header class="doctor-topbar">
+
+            <div>
+                <h1>Appointments</h1>
+
+                <p>
+                    Manage your scheduled patient consultations.
+                </p>
+            </div>
+
+            <div class="doctor-topbar-info">
+
+                <div class="top-avatar">
+                    {{ (session.get('full_name') or 'D')[0]|upper }}
+                </div>
+
+                <div>
+                    <strong>
+                        {{ session.get('full_name') or 'Doctor' }}
+                    </strong>
+
+                    <span>
+                        {{ session.get('department') or 'Clinical Department' }}
+                    </span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- SUMMARY CARDS -->
+        <section class="summary-grid">
+
+            <div class="summary-card">
+                <div class="summary-icon">▦</div>
+
+                <div>
+                    <span>Today's Appointments</span>
+                    <strong id="todayCount">0</strong>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">◷</div>
+
+                <div>
+                    <span>Pending Requests</span>
+                    <strong id="pendingCount">0</strong>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">✓</div>
+
+                <div>
+                    <span>Completed</span>
+                    <strong id="completedCount">0</strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- FILTERS -->
+        <section class="appointment-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Patient Appointments</h2>
+
+                    <p>
+                        View and update appointment status.
+                    </p>
+                </div>
+
+                <div class="filter-buttons">
+
+                    <button class="filter-btn active"
+                            data-status="all">
+                        All
+                    </button>
+
+                    <button class="filter-btn"
+                            data-status="pending">
+                        Pending
+                    </button>
+
+                    <button class="filter-btn"
+                            data-status="confirmed">
+                        Confirmed
+                    </button>
+
+                    <button class="filter-btn"
+                            data-status="completed">
+                        Completed
+                    </button>
+
+                    <button class="filter-btn"
+                            data-status="cancelled">
+                        Cancelled
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPOINTMENT LIST -->
+            <div id="doctorAppointmentsContainer"
+                 class="doctor-appointments-container">
+
+                <div class="loading-box">
+                    <div class="loader"></div>
+
+                    <p>
+                        Loading appointments...
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='doctor_appointments.js') }}"></script>
+
+</body>
+</html>

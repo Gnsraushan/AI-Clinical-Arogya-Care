@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find a Doctor | ArogyaCare</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='find_doctor.css') }}">
+</head>
+
+<body>
+
+<div class="page-shell">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">A</div>
+
+            <div>
+                <div class="brand-name">ArogyaCare</div>
+                <div class="brand-subtitle">Patient Care Platform</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="{{ url_for('patient_dashboard') }}"
+               class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Home</span>
+            </a>
+
+            <a href="{{ url_for('find_doctor') }}"
+               class="nav-item active">
+                <span class="nav-icon">⚕</span>
+                <span>Find Doctor</span>
+            </a>
+
+            <a href="{{ url_for('appointments') }}"
+               class="nav-item">
+                <span class="nav-icon">▣</span>
+                <span>My Appointments</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">◉</span>
+                <span>My Details</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Medical History</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+                <div class="help-icon">?</div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <span>Contact ArogyaCare support</span>
+                </div>
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div class="mobile-brand">
+                <div class="brand-logo">A</div>
+                <strong>ArogyaCare</strong>
+            </div>
+
+            <div class="topbar-right">
+
+                <button class="notification-btn" type="button">
+                    <span>♢</span>
+                    <i></i>
+                </button>
+
+                <div class="patient-profile">
+                    <div class="profile-avatar">
+                        {{ (session.get('full_name') or 'P')[0]|upper }}
+                    </div>
+
+                    <div class="profile-info">
+                        <strong>
+                            {{ session.get('full_name') or 'Patient' }}
+                        </strong>
+                        <span>Patient</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE -->
+        <section class="page-content">
+
+            <!-- PAGE HEADING -->
+            <div class="page-heading">
+
+                <div>
+                    <span class="eyebrow">CARE NAVIGATION</span>
+
+                    <h1>Find a Doctor</h1>
+
+                    <p>
+                        Find the right specialist and explore available
+                        consultation options for your care.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 AI SUGGESTION CARD
+            ========================== -->
+
+            <section class="care-suggestion">
+
+                <div class="suggestion-icon">
+                    ✦
+                </div>
+
+                <div class="suggestion-content">
+
+                    <div class="suggestion-label">
+                        AI CARE SUGGESTION
+                    </div>
+
+                    <h2>Looking for the right specialist?</h2>
+
+                    <p>
+                        Based on your recent case summary, ArogyaCare can
+                        suggest a suitable medical specialty for care
+                        navigation.
+                    </p>
+
+                    <div class="suggestion-note">
+                        <span>ⓘ</span>
+                        This suggestion is for care navigation only and
+                        does not provide a diagnosis.
+                    </div>
+
+                </div>
+
+                <button class="suggestion-btn" id="recommendedBtn">
+                    View Recommended Doctors
+                    <span>→</span>
+                </button>
+
+            </section>
+
+
+            <!-- =========================
+                 SEARCH
+            ========================== -->
+
+            <section class="search-section">
+
+                <div class="search-box">
+
+                    <span class="search-icon">⌕</span>
+
+                    <input
+                        type="text"
+                        id="doctorSearch"
+                        placeholder="Search doctor, specialty or hospital..."
+                        autocomplete="off"
+                    >
+
+                    <button id="clearSearch"
+                            class="clear-search"
+                            type="button">
+                        ×
+                    </button>
+
+                </div>
+
+                <button class="filter-btn" id="filterBtn">
+                    <span>☷</span>
+                    Filters
+                </button>
+
+            </section>
+
+
+            <!-- FILTERS -->
+
+            <section class="filters-panel" id="filtersPanel">
+
+                <div class="filter-group">
+
+                    <label for="specialtyFilter">
+                        Specialty
+                    </label>
+
+                    <select id="specialtyFilter">
+                        <option value="">All specialties</option>
+                    </select>
+
+                </div>
+
+                <div class="filter-group">
+
+                    <label for="locationFilter">
+                        Location
+                    </label>
+
+                    <select id="locationFilter">
+                        <option value="">All locations</option>
+                    </select>
+
+                </div>
+
+                <div class="filter-group">
+
+                    <label for="availabilityFilter">
+                        Availability
+                    </label>
+
+                    <select id="availabilityFilter">
+
+                        <option value="">
+                            Any availability
+                        </option>
+
+                        <option value="today">
+                            Available today
+                        </option>
+
+                        <option value="online">
+                            Online consultation
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="resetFilters"
+                    class="reset-filter">
+                    Reset
+                </button>
+
+            </section>
+
+
+            <!-- =========================
+                 RESULT HEADER
+            ========================== -->
+
+            <div class="results-header">
+
+                <div>
+                    <h2>Available Doctors</h2>
+                    <span id="resultCount">
+                        Finding doctors...
+                    </span>
+                </div>
+
+                <button
+                    type="button"
+                    id="nearMeBtn"
+                    class="near-me-btn">
+                    <span>⌖</span>
+                    Near me
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+                 DOCTOR GRID
+            ========================== -->
+
+            <section
+                id="doctorGrid"
+                class="doctor-grid">
+
+                <!-- JS inserts doctor cards here -->
+
+            </section>
+
+
+            <!-- EMPTY STATE -->
+
+            <section
+                id="emptyState"
+                class="empty-state">
+
+                <div class="empty-icon">
+                    ⌕
+                </div>
+
+                <h3>No doctors found</h3>
+
+                <p>
+                    Try changing your search or filters.
+                </p>
+
+                <button
+                    type="button"
+                    id="emptyResetBtn">
+                    Clear filters
+                </button>
+
+            </section>
+
+
+            <!-- LOADING -->
+
+            <section
+                id="loadingState"
+                class="loading-state">
+
+                <div class="loading-spinner"></div>
+
+                <p>Finding available doctors...</p>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='find_doctor.js') }}"></script>
+
+</body>
+</html>

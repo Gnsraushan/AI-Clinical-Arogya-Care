@@ -54,11 +54,11 @@
 
     <div class="sidebar-footer">
       <div class="doctor-chip">
-        <div class="avatar avatar-sm">{{ (user_name or 'Doctor')[:1] }}</div>
+        <div class="avatar avatar-sm">{{ (doctor_name or 'Doctor')[:1] }}</div>
         <div class="doctor-chip-text">
-          <span class="doctor-chip-name">Dr. {{ user_name or 'Doctor' }}</span>
-          <span class="doctor-chip-role">{{ user_role or 'Clinical Staff' }}</span>
-          {% if user_department %}<span class="doctor-chip-dept">{{ user_department }}</span>{% endif %}
+          <span class="doctor-chip-name">Dr. {{ doctor_name or 'Doctor' }}</span>
+          <span class="doctor-chip-role">{{ staff_role or 'Clinical Staff' }}</span>
+          {% if department %}<span class="doctor-chip-dept">{{ department }}</span>{% endif %}
         </div>
       </div>
       <a href="{{ url_for('logout') if config and config.get('HAS_LOGOUT_ROUTE') else '#' }}" id="logoutBtn" class="logout-link">
@@ -79,7 +79,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
       <div class="topbar-greeting">
-        <h1>Good morning, Dr. {{ user_name or 'Doctor' }}</h1>
+        <h1>Good morning, Dr. {{ doctor_name or 'Doctor' }}</h1>
         <p>Review patient cases and clinical intake summaries.</p>
       </div>
       <div class="topbar-actions">
@@ -88,10 +88,10 @@
           {% if notification_count and notification_count > 0 %}<span class="icon-dot">{{ notification_count }}</span>{% endif %}
         </button>
         <div class="topbar-doctor">
-          <div class="avatar avatar-sm">{{ (user_name or 'Doctor')[:1] }}</div>
+          <div class="avatar avatar-sm">{{ (doctor_name or 'Doctor')[:1] }}</div>
           <div class="topbar-doctor-text">
-            <span>Dr. {{ user_name or 'Doctor' }}</span>
-            <small>{{ user_role or 'Clinical Staff' }}</small>
+            <span>Dr. {{ doctor_name or 'Doctor' }}</span>
+            <small>{{ staff_role or 'Clinical Staff' }}</small>
           </div>
         </div>
       </div>

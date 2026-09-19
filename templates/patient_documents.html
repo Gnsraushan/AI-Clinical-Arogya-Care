@@ -1,423 +1,561 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Documents | ArogyaCare</title>
+```
+<title>Documents | ArogyaCare</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='patient_documents.css') }}">
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='patient_documents.css') }}">
+```
+
 </head>
 
 <body>
 
 <div class="app-container">
 
-    <!-- =========================
-         MOBILE SIDEBAR OVERLAY
-    ========================== -->
-    <div class="sidebar-overlay"
-         id="sidebarOverlay"
-         onclick="toggleMobileMenu()">
+```
+<!-- =========================
+     MOBILE OVERLAY
+========================== -->
+
+<div class="sidebar-overlay"
+     id="sidebarOverlay"
+     onclick="toggleMobileMenu()">
+</div>
+
+
+<!-- =========================
+     SIDEBAR
+========================== -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand-header">
+
+        <div class="brand-logo">
+
+            <svg width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2.2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                <path d="M12 5v16"/>
+
+            </svg>
+
+        </div>
+
+        <div class="brand-text">
+
+            <span class="brand-name">
+                ArogyaCare
+            </span>
+
+            <span class="brand-tagline">
+                AI Clinical Intake System
+            </span>
+
+        </div>
+
     </div>
 
 
     <!-- =========================
-         SIDEBAR
+         NAVIGATION
     ========================== -->
-    <aside class="sidebar" id="sidebar">
 
-        <div class="brand-header">
+    <nav class="nav-menu" aria-label="Main Navigation">
 
-            <div class="brand-logo">
-                <svg width="24"
-                     height="24"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2.2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
+        <!-- HOME -->
 
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-                    <path d="M12 5v16"/>
+        <a href="{{ url_for('patient_home') }}"
+           class="nav-item">
 
-                </svg>
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+
+            </svg>
+
+            <span>Home</span>
+
+        </a>
+
+
+        <!-- MY DETAILS -->
+
+        <a href="{{ url_for('patient_details') }}"
+           class="nav-item">
+
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+
+            </svg>
+
+            <span>My Details</span>
+
+        </a>
+
+
+        <!-- AI CONVERSATION -->
+
+        <a href="{{ url_for('ai_conversation') }}"
+           class="nav-item">
+
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                <path d="M8 10h.01"/>
+                <path d="M12 10h.01"/>
+                <path d="M16 10h.01"/>
+
+            </svg>
+
+            <span>AI Conversation</span>
+
+        </a>
+
+
+        <!-- HISTORY -->
+
+        <a href="{{ url_for('patient_history') }}"
+           class="nav-item">
+
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+
+            </svg>
+
+            <span>History</span>
+
+        </a>
+
+
+        <!-- PHYSICIAN REVIEW -->
+
+        <a href="{{ url_for('physician_review') }}"
+           class="nav-item">
+
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                <path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/>
+                <path d="m9 14 2 2 4-4"/>
+
+            </svg>
+
+            <span>Physician Review</span>
+
+        </a>
+
+
+        <!-- DOCUMENTS -->
+
+        <a href="{{ url_for('patient_documents') }}"
+           class="nav-item active"
+           aria-current="page">
+
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                <polyline points="14 2 14 8 20 8"/>
+
+            </svg>
+
+            <span>Documents</span>
+
+        </a>
+
+
+        <!-- SETTINGS -->
+
+        <a href="{{ url_for('settings') }}"
+           class="nav-item">
+
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <circle cx="12" cy="12" r="3"/>
+
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+
+            </svg>
+
+            <span>Settings</span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- SIDEBAR FOOTER -->
+
+    <div class="sidebar-footer">
+
+        <div class="user-chip">
+
+            <div class="avatar">
+                {{ (user_name or 'P')[0] | upper }}
             </div>
 
-            <div class="brand-text">
-                <span class="brand-name">ArogyaCare</span>
-                <span class="brand-tagline">
-                    AI Clinical Intake System
+            <div class="user-info">
+
+                <span class="user-name">
+                    {{ user_name or 'Patient' }}
                 </span>
-            </div>
 
-        </div>
-
-
-        <!-- =========================
-             NAVIGATION
-        ========================== -->
-
-        <nav class="nav-menu" aria-label="Main Navigation">
-
-            <a href="{{ url_for('patient_home') if 'patient_home' in routes else '#' }}"
-               class="nav-item">
-
-                <svg width="20"
-                     height="20"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-
-                </svg>
-
-                <span>Home</span>
-
-            </a>
-
-
-            <a href="{{ url_for('patient_details') if 'patient_details' in routes else '#' }}"
-               class="nav-item">
-
-                <svg width="20"
-                     height="20"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-
-                </svg>
-
-                <span>My Details</span>
-
-            </a>
-
-
-            <a href="{{ url_for('ai_conversation') if 'ai_conversation' in routes else '#' }}"
-               class="nav-item">
-
-                <svg width="20"
-                     height="20"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                    <path d="M8 10h.01"/>
-                    <path d="M12 10h.01"/>
-                    <path d="M16 10h.01"/>
-
-                </svg>
-
-                <span>AI Conversation</span>
-
-            </a>
-
-
-            <a href="{{ url_for('patient_history') if 'patient_history' in routes else '#' }}"
-               class="nav-item">
-
-                <svg width="20"
-                     height="20"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-
-                </svg>
-
-                <span>History</span>
-
-            </a>
-
-
-            <a href="{{ url_for('physician_review') if 'physician_review' in routes else '#' }}"
-               class="nav-item">
-
-                <svg width="20"
-                     height="20"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-                    <path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/>
-                    <path d="m9 14 2 2 4-4"/>
-
-                </svg>
-
-                <span>Physician Review</span>
-
-            </a>
-
-
-            <!-- ACTIVE -->
-            <a href="{{ url_for('patient_documents') if 'patient_documents' in routes else '#' }}"
-               class="nav-item active"
-               aria-current="page">
-
-                <svg width="20"
-                     height="20"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-
-                </svg>
-
-                <span>Documents</span>
-
-            </a>
-
-
-            <a href="{{ url_for('settings') if 'settings' in routes else '#' }}"
-               class="nav-item">
-
-                <svg width="20"
-                     height="20"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <circle cx="12" cy="12" r="3"/>
-
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
-
-                </svg>
-
-                <span>Settings</span>
-
-            </a>
-
-        </nav>
-
-
-        <!-- =========================
-             SIDEBAR FOOTER
-        ========================== -->
-
-        <div class="sidebar-footer">
-
-            <div class="user-chip">
-
-                <div class="avatar">
-                    {{ (user_name or 'P')[0] | upper }}
-                </div>
-
-                <div class="user-info">
-
-                    <span class="user-name">
-                        {{ user_name or 'Patient' }}
-                    </span>
-
-                    <span class="user-role">
-                        Patient Portal
-                    </span>
-
-                </div>
+                <span class="user-role">
+                    Patient Portal
+                </span>
 
             </div>
 
         </div>
 
-    </aside>
+    </div>
+
+</aside>
 
 
-    <!-- =========================
-         MAIN WRAPPER
-    ========================== -->
+<!-- =========================
+     MAIN
+========================== -->
 
-    <main class="main-wrapper">
+<main class="main-wrapper">
+
+    <!-- MOBILE HEADER -->
+
+    <header class="mobile-header">
+
+        <div class="brand-logo-mobile">
+
+            <svg width="22"
+                 height="22"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2.2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-4.5 0-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+
+            </svg>
+
+            <span>ArogyaCare</span>
+
+        </div>
 
 
-        <!-- MOBILE HEADER -->
+        <button class="mobile-menu-btn"
+                onclick="toggleMobileMenu()"
+                aria-label="Toggle navigation menu">
 
-        <header class="mobile-header">
+            <svg width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
 
-            <div class="brand-logo-mobile">
+                <line x1="4" x2="20" y1="12" y2="12"/>
+                <line x1="4" x2="20" y1="6" y2="6"/>
+                <line x1="4" x2="20" y1="18" y2="18"/>
 
-                <svg width="22"
-                     height="22"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2.2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
+            </svg>
 
-                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        </button>
 
-                </svg>
+    </header>
 
-                <span>ArogyaCare</span>
+
+    <!-- CONTENT -->
+
+    <div class="content-container">
+
+        <!-- PAGE HEADER -->
+
+        <header class="page-header">
+
+            <nav class="breadcrumb"
+                 aria-label="Breadcrumb">
+
+                <a href="{{ url_for('patient_home') }}"
+                   class="breadcrumb-item">
+                    Home
+                </a>
+
+                <span class="breadcrumb-separator">
+                    /
+                </span>
+
+                <span class="breadcrumb-item active">
+                    Documents
+                </span>
+
+            </nav>
+
+
+            <div class="header-titles">
+
+                <h1 class="page-title">
+                    Documents
+                </h1>
+
+                <p class="page-subtitle">
+                    Keep your medical reports and important healthcare documents organized in one secure place.
+                </p>
 
             </div>
-
-
-            <button class="mobile-menu-btn"
-                    onclick="toggleMobileMenu()"
-                    aria-label="Toggle navigation menu">
-
-                <svg width="24"
-                     height="24"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <line x1="4" x2="20" y1="12" y2="12"/>
-                    <line x1="4" x2="20" y1="6" y2="6"/>
-                    <line x1="4" x2="20" y1="18" y2="18"/>
-
-                </svg>
-
-            </button>
 
         </header>
 
 
         <!-- =========================
-             CONTENT
+             UPLOAD
         ========================== -->
 
-        <div class="content-container">
+        <section class="upload-section-card"
+                 aria-labelledby="uploadSectionTitle">
+
+            <div class="upload-card-header">
+
+                <h2 class="section-title"
+                    id="uploadSectionTitle">
+
+                    Upload a Document
+
+                </h2>
+
+                <p class="section-subtitle">
+
+                    Add medical reports, prescriptions, lab results, or other healthcare documents.
+
+                </p>
+
+            </div>
 
 
-            <!-- PAGE HEADER -->
+            <form id="documentUploadForm"
+                  action="{{ url_for('upload_document') }}"
+                  method="POST"
+                  enctype="multipart/form-data">
 
-            <header class="page-header">
+                <div class="dropzone"
+                     id="dropzone"
+                     role="region"
+                     aria-label="Document Upload Dropzone">
 
-                <nav class="breadcrumb"
-                     aria-label="Breadcrumb">
-
-                    <span class="breadcrumb-item">
-                        Home
-                    </span>
-
-                    <span class="breadcrumb-separator">
-                        /
-                    </span>
-
-                    <span class="breadcrumb-item active">
-                        Documents
-                    </span>
-
-                </nav>
+                    <input type="file"
+                           id="fileInput"
+                           name="file"
+                           accept=".pdf,.jpg,.jpeg,.png"
+                           class="file-input-hidden"
+                           aria-label="Choose medical document file">
 
 
-                <div class="header-titles">
+                    <!-- IDLE -->
 
-                    <h1 class="page-title">
-                        Documents
-                    </h1>
+                    <div class="dropzone-idle-content"
+                         id="dropzoneIdle">
 
-                    <p class="page-subtitle">
-                        Keep your medical reports and important healthcare documents organized in one secure place.
-                    </p>
+                        <div class="upload-icon-badge">
 
-                </div>
+                            <svg width="28"
+                                 height="28"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
 
-            </header>
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" x2="12" y1="3" y2="15"/>
 
+                            </svg>
 
-            <!-- =========================
-                 UPLOAD SECTION
-            ========================== -->
-
-            <section class="upload-section-card"
-                     aria-labelledby="uploadSectionTitle">
-
-
-                <div class="upload-card-header">
-
-                    <h2 class="section-title"
-                        id="uploadSectionTitle">
-
-                        Upload a Document
-
-                    </h2>
-
-                    <p class="section-subtitle">
-
-                        Add medical reports, prescriptions, lab results, or other healthcare documents.
-
-                    </p>
-
-                </div>
+                        </div>
 
 
-                <!-- UPLOAD FORM -->
+                        <div class="dropzone-text-group">
 
-                <form id="documentUploadForm"
-                      action="{{ url_for('upload_document') }}"
-                      method="POST"
-                      enctype="multipart/form-data">
+                            <p class="dropzone-primary-text">
 
+                                Drag &amp; drop your file here, or
 
-                    <div class="dropzone"
-                         id="dropzone"
-                         role="region"
-                         aria-label="Document Upload Dropzone">
+                                <button type="button"
+                                        class="browse-btn"
+                                        onclick="triggerFileInput()">
 
+                                    browse files
 
-                        <input type="file"
-                               id="fileInput"
-                               name="document"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               class="file-input-hidden"
-                               aria-label="Choose medical document file">
+                                </button>
+
+                            </p>
 
 
-                        <!-- IDLE STATE -->
+                            <p class="dropzone-specs">
 
-                        <div class="dropzone-idle-content"
-                             id="dropzoneIdle">
+                                Accepted formats:
+                                PDF, JPG, JPEG, PNG
+                                &bull;
+                                Max size: 10 MB
+
+                            </p>
+
+                        </div>
+
+                    </div>
 
 
-                            <div class="upload-icon-badge">
+                    <!-- SELECTED FILE -->
 
-                                <svg width="28"
-                                     height="28"
+                    <div class="dropzone-selected-content"
+                         id="dropzoneSelected"
+                         style="display:none;">
+
+                        <div class="file-info-chip">
+
+                            <div class="file-type-icon"
+                                 id="selectedFileIcon">
+
+                                <svg width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+
+                                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="file-details">
+
+                                <span class="file-name-text"
+                                      id="selectedFileName">
+                                    filename.pdf
+                                </span>
+
+                                <span class="file-size-text"
+                                      id="selectedFileSize">
+                                    0 KB
+                                </span>
+
+                            </div>
+
+
+                            <button type="button"
+                                    class="remove-file-btn"
+                                    onclick="clearSelectedFile()"
+                                    aria-label="Remove selected file">
+
+                                <svg width="18"
+                                     height="18"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+
+                                    <line x1="18" x2="6" y1="6" y2="18"/>
+                                    <line x1="6" x2="18" y1="6" y2="18"/>
+
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="upload-action-row">
+
+                            <button type="submit"
+                                    class="btn-primary"
+                                    id="uploadSubmitBtn">
+
+                                <svg width="16"
+                                     height="16"
                                      viewBox="0 0 24 24"
                                      fill="none"
                                      stroke="currentColor"
@@ -427,177 +565,370 @@
 
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                                     <polyline points="17 8 12 3 7 8"/>
-                                    <line x1="12"
-                                          x2="12"
-                                          y1="3"
-                                          y2="15"/>
+                                    <line x1="12" x2="12" y1="3" y2="15"/>
 
                                 </svg>
 
-                            </div>
+                                <span>
+                                    Upload Document
+                                </span>
 
-
-                            <div class="dropzone-text-group">
-
-                                <p class="dropzone-primary-text">
-
-                                    Drag &amp; drop your file here, or
-
-                                    <button type="button"
-                                            class="browse-btn"
-                                            onclick="triggerFileInput()">
-
-                                        browse files
-
-                                    </button>
-
-                                </p>
-
-
-                                <p class="dropzone-specs">
-
-                                    Accepted formats:
-                                    PDF, JPG, JPEG, PNG
-                                    &bull;
-                                    Max size: 10 MB
-
-                                </p>
-
-                            </div>
+                            </button>
 
                         </div>
 
+                    </div>
 
-                        <!-- SELECTED FILE STATE -->
-
-                        <div class="dropzone-selected-content"
-                             id="dropzoneSelected"
-                             style="display:none;">
+                </div>
 
 
-                            <div class="file-info-chip">
+                <div id="uploadFeedback"
+                     class="upload-feedback"
+                     style="display:none;">
+                </div>
+
+            </form>
 
 
-                                <div class="file-type-icon"
-                                     id="selectedFileIcon">
+            <div class="privacy-note">
 
-                                    <svg width="24"
-                                         height="24"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="2"
-                                         stroke-linecap="round"
-                                         stroke-linejoin="round">
+                <svg width="16"
+                     height="16"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
 
-                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                                        <polyline points="14 2 14 8 20 8"/>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <rect width="8" height="5" x="8" y="10" rx="1"/>
+                    <path d="M10 10V8a2 2 0 1 1 4 0v2"/>
 
-                                    </svg>
+                </svg>
 
-                                </div>
+                <span>
+                    Only upload documents that belong to you or that you are authorized to share.
+                    Your files are safely stored and private.
+                </span>
 
+            </div>
 
-                                <div class="file-details">
-
-                                    <span class="file-name-text"
-                                          id="selectedFileName">
-
-                                        filename.pdf
-
-                                    </span>
-
-                                    <span class="file-size-text"
-                                          id="selectedFileSize">
-
-                                        0 KB
-
-                                    </span>
-
-                                </div>
+        </section>
 
 
-                                <button type="button"
-                                        class="remove-file-btn"
-                                        onclick="clearSelectedFile()"
-                                        aria-label="Remove selected file">
+        <!-- =========================
+             DOCUMENT LIST
+        ========================== -->
 
-                                    <svg width="18"
-                                         height="18"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="2"
-                                         stroke-linecap="round"
-                                         stroke-linejoin="round">
+        {% set docs = documents or [] %}
 
-                                        <line x1="18"
-                                              x2="6"
-                                              y1="6"
-                                              y2="18"/>
+        <section class="documents-list-section"
+                 aria-labelledby="documentsListTitle">
 
-                                        <line x1="6"
-                                              x2="18"
-                                              y1="6"
-                                              y2="18"/>
+            <div class="list-section-header">
 
-                                    </svg>
+                <h2 class="section-title"
+                    id="documentsListTitle">
 
-                                </button>
+                    Your Documents
 
-                            </div>
+                </h2>
 
 
-                            <div class="upload-action-row">
+                {% if docs %}
 
-                                <button type="submit"
-                                        class="btn-primary"
-                                        id="uploadSubmitBtn">
+                <span class="count-badge">
 
-                                    <svg width="16"
-                                         height="16"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="2"
-                                         stroke-linecap="round"
-                                         stroke-linejoin="round">
+                    {{ docs|length }}
 
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                        <polyline points="17 8 12 3 7 8"/>
-                                        <line x1="12"
-                                              x2="12"
-                                              y1="3"
-                                              y2="15"/>
+                    {{ 'document' if docs|length == 1 else 'documents' }}
 
-                                    </svg>
+                </span>
 
-                                    <span>
-                                        Upload Document
-                                    </span>
+                {% endif %}
 
-                                </button>
+            </div>
 
-                            </div>
+
+            {% if docs %}
+
+            <div class="documents-grid">
+
+                {% for doc in docs %}
+
+                {% set filename_value =
+                    doc.original_filename
+                    or doc.document_name
+                    or doc.filename
+                    or doc.name
+                    or doc.file_path
+                    or 'Medical Document'
+                %}
+
+                {% set file_ext =
+                    filename_value.split('.')[-1]|lower
+                %}
+
+
+                <article class="document-card"
+                         data-doc-id="{{ doc.id }}">
+
+                    <!-- ICON -->
+
+                    <div class="doc-icon-wrapper {{ 'pdf' if file_ext == 'pdf' else 'image' }}">
+
+                        {% if file_ext == 'pdf' %}
+
+                        <svg width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <path d="M10 12h4"/>
+                            <path d="M10 16h4"/>
+
+                        </svg>
+
+                        {% else %}
+
+                        <svg width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+
+                            <rect width="18"
+                                  height="18"
+                                  x="3"
+                                  y="3"
+                                  rx="2"/>
+
+                            <circle cx="9"
+                                    cy="9"
+                                    r="2"/>
+
+                            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+
+                        </svg>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- CONTENT -->
+
+                    <div class="doc-main-content">
+
+                        <h3 class="doc-title"
+                            title="{{ filename_value }}">
+
+                            {{ filename_value }}
+
+                        </h3>
+
+
+                        <div class="doc-meta-row">
+
+                            <span class="meta-tag">
+
+                                {{ file_ext|upper or 'FILE' }}
+
+                            </span>
+
+
+                            {% if doc.created_at %}
+
+                            <span class="meta-separator">
+                                &bull;
+                            </span>
+
+                            <span class="meta-date">
+
+                                {% if doc.created_at.strftime is defined %}
+                                    {{ doc.created_at.strftime('%d %b %Y') }}
+                                {% else %}
+                                    {{ doc.created_at }}
+                                {% endif %}
+
+                            </span>
+
+                            {% endif %}
 
                         </div>
 
                     </div>
 
 
-                    <!-- FEEDBACK -->
+                    <!-- ACTIONS -->
 
-                    <div id="uploadFeedback"
-                         class="upload-feedback"
-                         style="display:none;">
+                    <div class="doc-actions-wrapper">
+
+                        <!-- VIEW -->
+
+                        {% if doc.view_url %}
+
+                        <a href="{{ doc.view_url }}"
+                           class="action-btn btn-view"
+                           target="_blank"
+                           rel="noopener"
+                           aria-label="View document">
+
+                            <svg width="16"
+                                 height="16"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                <circle cx="12"
+                                        cy="12"
+                                        r="3"/>
+
+                            </svg>
+
+                            <span>
+                                View
+                            </span>
+
+                        </a>
+
+                        {% endif %}
+
+
+                        <!-- DOWNLOAD -->
+
+                        {% if doc.download_url %}
+
+                        <a href="{{ doc.download_url }}"
+                           class="action-btn btn-download"
+                           aria-label="Download document">
+
+                            <svg width="16"
+                                 height="16"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12"
+                                      x2="12"
+                                      y1="15"
+                                      y2="3"/>
+
+                            </svg>
+
+                            <span>
+                                Download
+                            </span>
+
+                        </a>
+
+                        {% endif %}
+
+
+                        <!-- DELETE -->
+
+                        {% if doc.delete_url %}
+
+                        <form action="{{ doc.delete_url }}"
+                              method="POST"
+                              class="inline-delete-form"
+                              onsubmit="return confirm('Are you sure you want to delete this document?');">
+
+                            <button type="submit"
+                                    class="action-btn btn-delete"
+                                    aria-label="Delete document">
+
+                                <svg width="16"
+                                     height="16"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+
+                                    <path d="M3 6h18"/>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+
+                                </svg>
+
+                            </button>
+
+                        </form>
+
+                        {% endif %}
+
                     </div>
 
-                </form>
+                </article>
+
+                {% endfor %}
+
+            </div>
 
 
-                <!-- PRIVACY -->
+            {% else %}
 
-                <div class="privacy-note">
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+
+                    <svg width="42"
+                         height="42"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.7"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <path d="M12 11v6"/>
+                        <path d="M9 14h6"/>
+
+                    </svg>
+
+                </div>
+
+
+                <h3 class="empty-state-title">
+                    No documents yet
+                </h3>
+
+
+                <p class="empty-state-text">
+
+                    You haven't uploaded any medical documents.
+                    Upload reports, prescriptions, or lab results
+                    using the upload section above.
+
+                </p>
+
+
+                <button type="button"
+                        class="btn-primary empty-upload-btn"
+                        onclick="triggerFileInput()">
 
                     <svg width="16"
                          height="16"
@@ -608,469 +939,31 @@
                          stroke-linecap="round"
                          stroke-linejoin="round">
 
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-
-                        <rect width="8"
-                              height="5"
-                              x="8"
-                              y="10"
-                              rx="1"/>
-
-                        <path d="M10 10V8a2 2 0 1 1 4 0v2"/>
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12"
+                              x2="12"
+                              y1="3"
+                              y2="15"/>
 
                     </svg>
 
+                    Upload First Document
 
-                    <span>
+                </button>
 
-                        Only upload documents that belong to you or that you are authorized to share.
-                        Your files are safely stored and private.
+            </div>
 
-                    </span>
+            {% endif %}
 
-                </div>
+        </section>
 
-            </section>
+    </div>
 
-
-            <!-- =========================
-                 DOCUMENT LIST
-            ========================== -->
-
-            {% set docs = documents or patient_documents or [] %}
-
-
-            <section class="documents-list-section"
-                     aria-labelledby="documentsListTitle">
-
-
-                <div class="list-section-header">
-
-                    <h2 class="section-title"
-                        id="documentsListTitle">
-
-                        Your Documents
-
-                    </h2>
-
-
-                    {% if docs and docs|length > 0 %}
-
-                    <span class="count-badge">
-
-                        {{ docs|length }}
-
-                        {{ 'document' if docs|length == 1 else 'documents' }}
-
-                    </span>
-
-                    {% endif %}
-
-                </div>
-
-
-                <!-- =========================
-                     DOCUMENTS AVAILABLE
-                ========================== -->
-
-                {% if docs and docs|length > 0 %}
-
-
-                <div class="documents-grid">
-
-
-                    {% for doc in docs %}
-
-
-                    {% set filename_value = doc.document_name or doc.filename or doc.name or doc.file_path or '' %}
-
-                    {% set file_ext = filename_value.split('.')[-1]|lower %}
-
-
-                    <article class="document-card"
-                             data-doc-id="{{ doc.id or loop.index }}">
-
-
-                        <!-- DOCUMENT ICON -->
-
-                        <div class="doc-icon-wrapper {{ 'pdf' if file_ext == 'pdf' else 'image' }}">
-
-
-                            {% if file_ext == 'pdf' %}
-
-                            <svg width="24"
-                                 height="24"
-                                 viewBox="0 0 24 24"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 stroke-width="2"
-                                 stroke-linecap="round"
-                                 stroke-linejoin="round">
-
-                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <path d="M10 12h4"/>
-                                <path d="M10 16h4"/>
-
-                            </svg>
-
-                            {% else %}
-
-                            <svg width="24"
-                                 height="24"
-                                 viewBox="0 0 24 24"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 stroke-width="2"
-                                 stroke-linecap="round"
-                                 stroke-linejoin="round">
-
-                                <rect width="18"
-                                      height="18"
-                                      x="3"
-                                      y="3"
-                                      rx="2"/>
-
-                                <circle cx="9"
-                                        cy="9"
-                                        r="2"/>
-
-                                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-
-                            </svg>
-
-                            {% endif %}
-
-                        </div>
-
-
-                        <!-- DOCUMENT CONTENT -->
-
-                        <div class="doc-main-content">
-
-
-                            <h3 class="doc-title"
-                                title="{{ filename_value }}">
-
-                                {{ filename_value or 'Medical Document' }}
-
-                            </h3>
-
-
-                            <div class="doc-meta-row">
-
-
-                                <span class="meta-tag">
-
-                                    {{ doc.document_type or doc.type or (file_ext|upper) or 'FILE' }}
-
-                                </span>
-
-
-                                {% if doc.uploaded_at or doc.created_at %}
-
-                                <span class="meta-separator">
-                                    &bull;
-                                </span>
-
-                                <span class="meta-date">
-
-                                    {% if doc.uploaded_at and doc.uploaded_at.strftime is defined %}
-
-                                        {{ doc.uploaded_at.strftime('%d %b %Y') }}
-
-                                    {% elif doc.created_at and doc.created_at.strftime is defined %}
-
-                                        {{ doc.created_at.strftime('%d %b %Y') }}
-
-                                    {% else %}
-
-                                        {{ doc.created_at or doc.uploaded_at }}
-
-                                    {% endif %}
-
-                                </span>
-
-                                {% endif %}
-
-
-                                {% if doc.file_size or doc.size %}
-
-                                <span class="meta-separator">
-                                    &bull;
-                                </span>
-
-                                <span class="meta-size">
-
-                                    {{ doc.file_size or doc.size }}
-
-                                </span>
-
-                                {% endif %}
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- =========================
-                             DOCUMENT DATA
-                        ========================== -->
-
-                        <script type="application/json"
-                                class="document-data">
-
-                        {
-                            "id": {{ (doc.id or loop.index)|tojson }},
-
-                            "name": {{ (filename_value or 'Medical Document')|tojson }},
-
-                            "type": {{ (doc.document_type or doc.type or (file_ext|upper) or 'FILE')|tojson }},
-
-                            "url": {{ (doc.url or doc.file_url or '')|tojson }},
-
-                            "download_url": {{ (doc.download_url or '')|tojson }},
-
-                            "delete_url": {{ (doc.delete_url or '')|tojson }},
-
-                            "date": {{ (
-                                doc.uploaded_at.strftime('%d %B %Y')
-                                if doc.uploaded_at and doc.uploaded_at.strftime is defined
-                                else (
-                                    doc.created_at.strftime('%d %B %Y')
-                                    if doc.created_at and doc.created_at.strftime is defined
-                                    else (
-                                        doc.created_at or doc.uploaded_at or 'Not specified'
-                                    )
-                                )
-                            )|tojson }}
-                        }
-
-                        </script>
-
-
-                        <!-- =========================
-                             ACTIONS
-                        ========================== -->
-
-                        <div class="doc-actions-wrapper">
-
-
-                            <!-- VIEW -->
-
-                            {% if doc.url or doc.file_url %}
-
-                            <a href="{{ doc.url or doc.file_url }}"
-                               class="action-btn btn-view"
-                               target="_blank"
-                               rel="noopener"
-                               aria-label="View document">
-
-                                <svg width="16"
-                                     height="16"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     stroke-width="2"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-
-                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                                    <circle cx="12"
-                                            cy="12"
-                                            r="3"/>
-
-                                </svg>
-
-                                <span>
-                                    View
-                                </span>
-
-                            </a>
-
-                            {% endif %}
-
-
-                            <!-- DOWNLOAD -->
-
-                            {% if doc.download_url %}
-
-                            <a href="{{ doc.download_url }}"
-                               class="action-btn btn-download"
-                               aria-label="Download document">
-
-                                <svg width="16"
-                                     height="16"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     stroke-width="2"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-
-                                    <polyline points="7 10 12 15 17 10"/>
-
-                                    <line x1="12"
-                                          x2="12"
-                                          y1="15"
-                                          y2="3"/>
-
-                                </svg>
-
-                                <span>
-                                    Download
-                                </span>
-
-                            </a>
-
-                            {% endif %}
-
-
-                            <!-- DELETE -->
-
-                            {% if doc.delete_url %}
-
-                            <form action="{{ doc.delete_url }}"
-                                  method="POST"
-                                  class="inline-delete-form"
-                                  onsubmit="return confirm('Are you sure you want to delete this document?');">
-
-
-                                <button type="submit"
-                                        class="action-btn btn-delete"
-                                        aria-label="Delete document">
-
-                                    <svg width="16"
-                                         height="16"
-                                         viewBox="0 0 24 24"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         stroke-width="2"
-                                         stroke-linecap="round"
-                                         stroke-linejoin="round">
-
-                                        <path d="M3 6h18"/>
-
-                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-
-                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-
-                                    </svg>
-
-                                </button>
-
-                            </form>
-
-                            {% endif %}
-
-
-                        </div>
-
-                    </article>
-
-
-                    {% endfor %}
-
-
-                </div>
-
-
-                <!-- =========================
-                     NO DOCUMENTS
-                ========================== -->
-
-                {% else %}
-
-
-                <div class="empty-state">
-
-
-                    <div class="empty-state-icon">
-
-                        <svg width="42"
-                             height="42"
-                             viewBox="0 0 24 24"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="1.7"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-
-                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-
-                            <polyline points="14 2 14 8 20 8"/>
-
-                            <path d="M12 11v6"/>
-
-                            <path d="M9 14h6"/>
-
-                        </svg>
-
-                    </div>
-
-
-                    <h3 class="empty-state-title">
-
-                        No documents yet
-
-                    </h3>
-
-
-                    <p class="empty-state-text">
-
-                        You haven't uploaded any medical documents.
-                        Upload reports, prescriptions, or lab results
-                        using the upload section above.
-
-                    </p>
-
-
-                    <button type="button"
-                            class="btn-primary empty-upload-btn"
-                            onclick="triggerFileInput()">
-
-                        <svg width="16"
-                             height="16"
-                             viewBox="0 0 24 24"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="2"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-
-                            <polyline points="17 8 12 3 7 8"/>
-
-                            <line x1="12"
-                                  x2="12"
-                                  y1="3"
-                                  y2="15"/>
-
-                        </svg>
-
-                        Upload First Document
-
-                    </button>
-
-
-                </div>
-
-
-                {% endif %}
-
-
-            </section>
-
-
-        </div>
-
-    </main>
+</main>
+```
 
 </div>
-
 
 <!-- =========================
      JAVASCRIPT
@@ -1078,15 +971,26 @@
 
 <script>
 
-const fileInput = document.getElementById("fileInput");
-const dropzone = document.getElementById("dropzone");
-const dropzoneIdle = document.getElementById("dropzoneIdle");
-const dropzoneSelected = document.getElementById("dropzoneSelected");
+const fileInput =
+    document.getElementById("fileInput");
 
-const selectedFileName = document.getElementById("selectedFileName");
-const selectedFileSize = document.getElementById("selectedFileSize");
+const dropzone =
+    document.getElementById("dropzone");
 
-const uploadFeedback = document.getElementById("uploadFeedback");
+const dropzoneIdle =
+    document.getElementById("dropzoneIdle");
+
+const dropzoneSelected =
+    document.getElementById("dropzoneSelected");
+
+const selectedFileName =
+    document.getElementById("selectedFileName");
+
+const selectedFileSize =
+    document.getElementById("selectedFileSize");
+
+const uploadFeedback =
+    document.getElementById("uploadFeedback");
 
 
 /* =========================
@@ -1095,10 +999,15 @@ const uploadFeedback = document.getElementById("uploadFeedback");
 
 function toggleMobileMenu() {
 
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
+    const sidebar =
+        document.getElementById("sidebar");
 
-    if (!sidebar) return;
+    const overlay =
+        document.getElementById("sidebarOverlay");
+
+    if (!sidebar) {
+        return;
+    }
 
     sidebar.classList.toggle("open");
 
@@ -1151,19 +1060,11 @@ function handleSelectedFile(file) {
         return;
     }
 
-
-    const allowedTypes = [
-        "application/pdf",
-        "image/jpeg",
-        "image/png"
-    ];
-
-
-    const extension = file.name
+    const extension =
+        file.name
         .split(".")
         .pop()
         .toLowerCase();
-
 
     const allowedExtensions = [
         "pdf",
@@ -1172,11 +1073,7 @@ function handleSelectedFile(file) {
         "png"
     ];
 
-
-    if (
-        !allowedTypes.includes(file.type) &&
-        !allowedExtensions.includes(extension)
-    ) {
+    if (!allowedExtensions.includes(extension)) {
 
         showFeedback(
             "Please select a PDF, JPG, JPEG, or PNG file.",
@@ -1189,8 +1086,8 @@ function handleSelectedFile(file) {
     }
 
 
-    const maxSize = 10 * 1024 * 1024;
-
+    const maxSize =
+        10 * 1024 * 1024;
 
     if (file.size > maxSize) {
 
@@ -1206,22 +1103,26 @@ function handleSelectedFile(file) {
 
 
     if (selectedFileName) {
-        selectedFileName.textContent = file.name;
+        selectedFileName.textContent =
+            file.name;
     }
 
 
     if (selectedFileSize) {
-        selectedFileSize.textContent = formatFileSize(file.size);
+        selectedFileSize.textContent =
+            formatFileSize(file.size);
     }
 
 
     if (dropzoneIdle) {
-        dropzoneIdle.style.display = "none";
+        dropzoneIdle.style.display =
+            "none";
     }
 
 
     if (dropzoneSelected) {
-        dropzoneSelected.style.display = "flex";
+        dropzoneSelected.style.display =
+            "flex";
     }
 
 
@@ -1231,20 +1132,28 @@ function handleSelectedFile(file) {
 
 
 /* =========================
-   FILE INPUT CHANGE
+   FILE CHANGE
 ========================= */
 
 if (fileInput) {
 
-    fileInput.addEventListener("change", function () {
+    fileInput.addEventListener(
+        "change",
+        function () {
 
-        if (this.files && this.files.length > 0) {
+            if (
+                this.files &&
+                this.files.length > 0
+            ) {
 
-            handleSelectedFile(this.files[0]);
+                handleSelectedFile(
+                    this.files[0]
+                );
+
+            }
 
         }
-
-    });
+    );
 
 }
 
@@ -1261,12 +1170,14 @@ function clearSelectedFile() {
 
 
     if (dropzoneIdle) {
-        dropzoneIdle.style.display = "flex";
+        dropzoneIdle.style.display =
+            "flex";
     }
 
 
     if (dropzoneSelected) {
-        dropzoneSelected.style.display = "none";
+        dropzoneSelected.style.display =
+            "none";
     }
 
 
@@ -1281,78 +1192,106 @@ function clearSelectedFile() {
 
 if (dropzone) {
 
-    dropzone.addEventListener("dragover", function (event) {
+    dropzone.addEventListener(
+        "dragover",
+        function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        dropzone.classList.add("dragover");
+            dropzone.classList.add(
+                "dragover"
+            );
 
-    });
-
-
-    dropzone.addEventListener("dragleave", function () {
-
-        dropzone.classList.remove("dragover");
-
-    });
-
-
-    dropzone.addEventListener("drop", function (event) {
-
-        event.preventDefault();
-
-        dropzone.classList.remove("dragover");
-
-
-        const files = event.dataTransfer.files;
-
-
-        if (!files || files.length === 0) {
-            return;
         }
+    );
 
 
-        if (fileInput) {
+    dropzone.addEventListener(
+        "dragleave",
+        function () {
 
-            try {
+            dropzone.classList.remove(
+                "dragover"
+            );
 
-                const dataTransfer = new DataTransfer();
+        }
+    );
 
-                dataTransfer.items.add(files[0]);
 
-                fileInput.files = dataTransfer.files;
+    dropzone.addEventListener(
+        "drop",
+        function (event) {
 
-            } catch (error) {
+            event.preventDefault();
 
-                console.log(
-                    "Could not assign dropped file:",
-                    error
-                );
+            dropzone.classList.remove(
+                "dragover"
+            );
+
+
+            const files =
+                event.dataTransfer.files;
+
+
+            if (
+                !files ||
+                files.length === 0
+            ) {
+                return;
+            }
+
+
+            if (fileInput) {
+
+                try {
+
+                    const dataTransfer =
+                        new DataTransfer();
+
+                    dataTransfer.items.add(
+                        files[0]
+                    );
+
+                    fileInput.files =
+                        dataTransfer.files;
+
+                } catch (error) {
+
+                    console.log(
+                        "Could not assign dropped file:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            handleSelectedFile(
+                files[0]
+            );
+
+        }
+    );
+
+
+    dropzone.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target.tagName !== "BUTTON" &&
+                !event.target.closest(".remove-file-btn") &&
+                dropzoneIdle &&
+                dropzoneIdle.style.display !== "none"
+            ) {
+
+                triggerFileInput();
 
             }
 
         }
-
-
-        handleSelectedFile(files[0]);
-
-    });
-
-
-    dropzone.addEventListener("click", function (event) {
-
-        if (
-            event.target.tagName !== "BUTTON" &&
-            !event.target.closest(".remove-file-btn") &&
-            dropzoneIdle &&
-            dropzoneIdle.style.display !== "none"
-        ) {
-
-            triggerFileInput();
-
-        }
-
-    });
+    );
 
 }
 
@@ -1361,20 +1300,24 @@ if (dropzone) {
    FEEDBACK
 ========================= */
 
-function showFeedback(message, type) {
+function showFeedback(
+    message,
+    type
+) {
 
     if (!uploadFeedback) {
         return;
     }
 
-
-    uploadFeedback.textContent = message;
+    uploadFeedback.textContent =
+        message;
 
     uploadFeedback.className =
-        "upload-feedback " + (type || "");
+        "upload-feedback " +
+        (type || "");
 
-
-    uploadFeedback.style.display = "block";
+    uploadFeedback.style.display =
+        "block";
 
 }
 
@@ -1385,9 +1328,11 @@ function hideFeedback() {
         return;
     }
 
-    uploadFeedback.textContent = "";
+    uploadFeedback.textContent =
+        "";
 
-    uploadFeedback.style.display = "none";
+    uploadFeedback.style.display =
+        "none";
 
 }
 
@@ -1397,136 +1342,105 @@ function hideFeedback() {
 ========================= */
 
 const uploadForm =
-    document.getElementById("documentUploadForm");
+    document.getElementById(
+        "documentUploadForm"
+    );
 
 
 if (uploadForm) {
 
-    uploadForm.addEventListener("submit", function (event) {
+    uploadForm.addEventListener(
+        "submit",
+        function (event) {
 
-        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+            if (
+                !fileInput ||
+                !fileInput.files ||
+                fileInput.files.length === 0
+            ) {
 
-            event.preventDefault();
+                event.preventDefault();
 
-            showFeedback(
-                "Please select a document first.",
-                "error"
-            );
+                showFeedback(
+                    "Please select a document first.",
+                    "error"
+                );
 
+                return;
+
+            }
+
+
+            const submitButton =
+                document.getElementById(
+                    "uploadSubmitBtn"
+                );
+
+
+            if (submitButton) {
+
+                submitButton.disabled =
+                    true;
+
+                const span =
+                    submitButton.querySelector(
+                        "span"
+                    );
+
+                if (span) {
+
+                    span.textContent =
+                        "Uploading...";
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================
+   ESCAPE CLOSE
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key !== "Escape") {
             return;
         }
 
 
-        const submitButton =
-            document.getElementById("uploadSubmitBtn");
-
-
-        if (submitButton) {
-
-            submitButton.disabled = true;
-
-            const span = submitButton.querySelector("span");
-
-            if (span) {
-                span.textContent = "Uploading...";
-            }
-
-        }
-
-    });
-
-}
-
-
-/* =========================
-   DOCUMENT PREVIEW
-========================= */
-
-function openDocumentPreview(button) {
-
-    const card = button.closest(".document-card");
-
-    if (!card) {
-        return;
-    }
-
-
-    const dataElement =
-        card.querySelector(".document-data");
-
-
-    if (!dataElement) {
-        return;
-    }
-
-
-    try {
-
-        const data =
-            JSON.parse(dataElement.textContent);
-
-
-        if (data.url) {
-
-            window.open(
-                data.url,
-                "_blank",
-                "noopener,noreferrer"
-            );
-
-        } else {
-
-            showFeedback(
-                "Document preview is not available.",
-                "error"
-            );
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Document preview error:",
-            error
-        );
-
-        showFeedback(
-            "Could not open this document.",
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =========================
-   ESCAPE CLOSE MENU
-========================= */
-
-document.addEventListener("keydown", function (event) {
-
-    if (event.key === "Escape") {
-
         const sidebar =
-            document.getElementById("sidebar");
+            document.getElementById(
+                "sidebar"
+            );
 
         const overlay =
-            document.getElementById("sidebarOverlay");
+            document.getElementById(
+                "sidebarOverlay"
+            );
 
 
         if (sidebar) {
-            sidebar.classList.remove("open");
+            sidebar.classList.remove(
+                "open"
+            );
         }
 
 
         if (overlay) {
-            overlay.classList.remove("active");
+            overlay.classList.remove(
+                "active"
+            );
         }
 
     }
-
-});
+);
 
 </script>
 

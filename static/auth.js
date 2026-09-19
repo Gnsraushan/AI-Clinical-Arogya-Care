@@ -1,5 +1,5 @@
 /* =========================================================
-   CARESYNC AUTHENTICATION
+   AROGYACARE AUTHENTICATION
    Flask + MySQL
    ========================================================= */
 
@@ -26,7 +26,6 @@ function getRoleFromURL() {
 
     return "patient";
 }
-
 
 
 /* =========================================================
@@ -94,7 +93,6 @@ function clearAllErrors(form) {
         group.classList.remove(
             "has-error"
         );
-
     });
 }
 
@@ -167,10 +165,8 @@ function initPasswordToggles() {
                     button.textContent =
                         "Show";
                 }
-
             }
         );
-
     });
 }
 
@@ -235,16 +231,19 @@ function initLoginPage() {
     if (role === "patient") {
 
         if (title) {
+
             title.textContent =
                 "Patient Sign In";
         }
 
         if (subtitle) {
+
             subtitle.textContent =
                 "Access your intake profile and records.";
         }
 
         if (label) {
+
             label.textContent =
                 "Patient ID / ABHA Number / Phone";
         }
@@ -257,7 +256,6 @@ function initLoginPage() {
             identifier.name =
                 "patientIdentifier";
         }
-
     }
 
 
@@ -268,16 +266,19 @@ function initLoginPage() {
     else {
 
         if (title) {
+
             title.textContent =
                 "Doctor / Hospital Staff Sign In";
         }
 
         if (subtitle) {
+
             subtitle.textContent =
                 "Access the clinical intake dashboard.";
         }
 
         if (label) {
+
             label.textContent =
                 "Email";
         }
@@ -315,7 +316,6 @@ function initLoginPage() {
             event.preventDefault();
 
             clearAllErrors(form);
-
 
             let valid = true;
 
@@ -456,20 +456,27 @@ function initLoginPage() {
                 );
 
 
+                /* =================================================
+                   CORRECT ROLE-BASED REDIRECT
+                   ================================================= */
+
                 setTimeout(
-    function () {
+                    function () {
 
-        if (role === "patient") {
-            window.location.href =
-                "/patient-dashboard";
-        } else {
-            window.location.href =
-                "/dashboard";
-        }
+                        if (role === "patient") {
 
-    },
-    800
-);
+                            window.location.href =
+                                "/patient/dashboard";
+
+                        } else {
+
+                            window.location.href =
+                                "/dashboard";
+                        }
+
+                    },
+                    800
+                );
 
 
             } catch (error) {
@@ -486,7 +493,6 @@ function initLoginPage() {
                     "error"
                 );
             }
-
         }
     );
 }
@@ -552,25 +558,28 @@ function initRegisterPage() {
     if (role === "patient") {
 
         if (title) {
+
             title.textContent =
                 "Patient Registration";
         }
 
         if (subtitle) {
+
             subtitle.textContent =
                 "Create your account to begin intake.";
         }
 
         if (doctorFields) {
+
             doctorFields.style.display =
                 "none";
         }
 
         if (patientFields) {
+
             patientFields.style.display =
                 "block";
         }
-
     }
 
 
@@ -581,21 +590,25 @@ function initRegisterPage() {
     else {
 
         if (title) {
+
             title.textContent =
                 "Doctor / Hospital Staff Registration";
         }
 
         if (subtitle) {
+
             subtitle.textContent =
                 "Create a staff account to access the dashboard.";
         }
 
         if (doctorFields) {
+
             doctorFields.style.display =
                 "block";
         }
 
         if (patientFields) {
+
             patientFields.style.display =
                 "none";
         }
@@ -624,7 +637,6 @@ function initRegisterPage() {
             event.preventDefault();
 
             clearAllErrors(form);
-
 
             let valid = true;
 
@@ -1037,7 +1049,6 @@ function initRegisterPage() {
                     "error"
                 );
             }
-
         }
     );
 }
@@ -1075,7 +1086,6 @@ document.addEventListener(
                         clearFieldError(
                             element
                         );
-
                     }
                 );
 
@@ -1087,11 +1097,8 @@ document.addEventListener(
                         clearFieldError(
                             element
                         );
-
                     }
                 );
-
             });
-
     }
 );

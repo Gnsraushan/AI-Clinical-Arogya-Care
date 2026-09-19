@@ -1,394 +1,1749 @@
-/* ==========================================================================
-   CareSync — Doctor Dashboard
-   Vanilla JS only. No fake data, no auto-called APIs.
-   ========================================================================== */
 
-const API = {
-  searchPatients: "/api/doctor/patients/search",
-  patientCase: "/api/doctor/patient"
-};
+document.addEventListener("DOMContentLoaded", function () {
 
-/* ---------- element refs ---------- */
-const els = {
-  sidebar: document.getElementById('sidebar'),
-  sidebarScrim: document.getElementById('sidebarScrim'),
-  menuToggle: document.getElementById('menuToggle'),
+    // =========================================================
+    // ELEMENTS
+    // =========================================================
 
-  searchForm: document.getElementById('searchForm'),
-  searchInput: document.getElementById('patientSearchInput'),
+    var sidebar = document.getElementById("sidebar");
+    var sidebarScrim = document.getElementById("sidebarScrim");
+    var menuToggle = document.getElementById("menuToggle");
 
-  resultsCount: document.getElementById('resultsCount'),
-  patientList: document.getElementById('patientList'),
-  emptyState: document.getElementById('emptyState'),
-  noResultsState: document.getElementById('noResultsState'),
-  loadingState: document.getElementById('loadingState'),
-  patientCardTemplate: document.getElementById('patientCardTemplate'),
+    var searchForm = document.getElementById("searchForm");
+    var searchInput = document.getElementById("patientSearchInput");
+    var searchBtn = document.getElementById("searchBtn");
 
-  casePanel: document.getElementById('casePanel'),
-  casePlaceholder: document.getElementById('casePlaceholder'),
-  backToPatients: document.getElementById('backToPatients'),
-  patientIdentity: document.getElementById('patientIdentity'),
-  historyGrid: document.getElementById('historyGrid'),
-  redFlagCard: document.getElementById('redFlagCard'),
-  conversationTimeline: document.getElementById('conversationTimeline'),
-  toggleConversation: document.getElementById('toggleConversation'),
-  verifyCaseBtn: document.getElementById('verifyCaseBtn'),
-  reviewCaseBtn: document.getElementById('reviewCaseBtn'),
+    var resultsCount = document.getElementById("resultsCount");
+    var patientList = document.getElementById("patientList");
+    var emptyState = document.getElementById("emptyState");
+    var noResultsState = document.getElementById("noResultsState");
+    var loadingState = document.getElementById("loadingState");
 
-  logoutBtn: document.getElementById('logoutBtn'),
-};
+    var patientCardTemplate =
+        document.getElementById("patientCardTemplate");
 
-let currentPatientId = null;
+    var casePanel = document.getElementById("casePanel");
+    var casePlaceholder = document.getElementById("casePlaceholder");
+    var backToPatients = document.getElementById("backToPatients");
 
-/* ---------- mobile sidebar ---------- */
-function openSidebar() {
-  els.sidebar.classList.add('open');
-  els.sidebarScrim.classList.add('show');
-}
-function closeSidebar() {
-  els.sidebar.classList.remove('open');
-  els.sidebarScrim.classList.remove('show');
-}
-els.menuToggle && els.menuToggle.addEventListener('click', openSidebar);
-els.sidebarScrim && els.sidebarScrim.addEventListener('click', closeSidebar);
+    var patientIdentity = document.getElementById("patientIdentity");
+    var historyGrid = document.getElementById("historyGrid");
+    var redFlagCard = document.getElementById("redFlagCard");
+    var conversationTimeline =
+        document.getElementById("conversationTimeline");
 
-/* ---------- view state helpers ---------- */
-function showLoading() {
-  toggle(els.loadingState, true);
-  toggle(els.emptyState, false);
-  toggle(els.noResultsState, false);
-  els.patientList.innerHTML = '';
-}
-function toggle(el, show) {
-  if (!el) return;
-  el.hidden = !show;
-}
+    var toggleConversation =
+        document.getElementById("toggleConversation");
 
-/* ---------- search ---------- */
-els.searchForm.addEventListener('submit', function (e) {
-  e.preventDefault();
-  const query = els.searchInput.value.trim();
-  if (!query) {
-    els.searchInput.focus();
-    return;
-  }
-  searchPatients(query);
-});
+    var verifyCaseBtn =
+        document.getElementById("verifyCaseBtn");
 
-async function searchPatients(query) {
-  showLoading();
-  els.resultsCount.textContent = 'Searching…';
+    var reviewCaseBtn =
+        document.getElementById("reviewCaseBtn");
 
-  try {
-    const response = await fetch(`${API.searchPatients}?q=${encodeURIComponent(query)}`);
+    var logoutBtn =
+        document.getElementById("logoutBtn");
 
-    if (!response.ok) {
-      throw new Error(`Search failed with status ${response.status}`);
+    var currentPatientId = null;
+
+
+    // =========================================================
+    // BASIC CHECK
+    // =========================================================
+
+    console.log("ArogyaCare Doctor Dashboard JS loaded.");
+
+    console.log(
+        "Search form:",
+        searchForm
+    );
+
+    console.log(
+        "Search input:",
+        searchInput
+    );
+
+    console.log(
+        "Patient list:",
+        patientList
+    );
+
+
+    // =========================================================
+    // SIDEBAR
+    // =========================================================
+
+    if (menuToggle && sidebar) {
+
+        menuToggle.addEventListener(
+            "click",
+            function () {
+
+                sidebar.classList.toggle("open");
+
+                if (sidebarScrim) {
+                    sidebarScrim.classList.toggle("show");
+                }
+            }
+        );
     }
 
-    const data = await response.json();
-    const patients = Array.isArray(data) ? data : (data.patients || []);
-    renderPatientList(patients, query);
+    if (sidebarScrim) {
 
-  } catch (err) {
-    // No backend connected yet, or a real network error — fail quietly with an empty state.
-    console.warn('Patient search unavailable:', err.message);
-    renderPatientList([], query);
-  }
-}
+        sidebarScrim.addEventListener(
+            "click",
+            function () {
 
-function renderPatientList(patients, query) {
-  toggle(els.loadingState, false);
-  els.patientList.innerHTML = '';
+                if (sidebar) {
+                    sidebar.classList.remove("open");
+                }
 
-  if (!patients || patients.length === 0) {
-    toggle(els.emptyState, false);
-    toggle(els.noResultsState, true);
-    els.resultsCount.textContent = `No results for "${query}"`;
-    return;
-  }
+                sidebarScrim.classList.remove("show");
+            }
+        );
+    }
 
-  toggle(els.noResultsState, false);
-  els.resultsCount.textContent = `Found ${patients.length} patient${patients.length === 1 ? '' : 's'}`;
 
-  patients.forEach(function (patient) {
-    els.patientList.appendChild(buildPatientCard(patient));
-  });
-}
+    // =========================================================
+    // HIDDEN / VISIBLE HELPERS
+    // =========================================================
 
-function buildPatientCard(patient) {
-  const node = els.patientCardTemplate.content.firstElementChild.cloneNode(true);
+    function show(element) {
 
-  const name = patient.name || 'Unnamed patient';
-  const initial = name.trim().charAt(0).toUpperCase() || 'P';
-  const age = patient.age != null ? `${patient.age} yrs` : null;
-  const gender = patient.gender || null;
-  const demo = [age, gender].filter(Boolean).join(' · ') || 'Details not provided';
+        if (!element) {
+            return;
+        }
 
-  node.querySelector('.avatar').textContent = initial;
-  node.querySelector('.patient-name').textContent = name;
-  node.querySelector('.patient-demo').textContent = demo;
-  node.querySelector('.patient-mobile').textContent = patient.mobile || 'Mobile not provided';
-  node.querySelector('.patient-abha').textContent = patient.abha_id ? `ABHA ${patient.abha_id}` : 'ABHA not linked';
+        element.hidden = false;
+        element.style.display = "";
+    }
 
-  const statusPill = node.querySelector('.status-pill');
-  const isRedFlag = !!patient.red_flag;
-  statusPill.classList.add(isRedFlag ? 'redflag' : 'normal');
-  statusPill.textContent = isRedFlag ? 'Red flag' : 'Normal';
 
-  node.querySelector('.last-visit').textContent = patient.last_case_date
-    ? `Last visit ${patient.last_case_date}`
-    : 'No prior visits';
+    function hide(element) {
 
-  const openCase = function () { loadPatientCase(patient.id, patient); };
-  node.addEventListener('click', openCase);
-  node.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(); }
-  });
-  node.querySelector('.view-case-btn').addEventListener('click', function (e) {
-    e.stopPropagation();
-    openCase();
-  });
+        if (!element) {
+            return;
+        }
 
-  return node;
-}
+        element.hidden = true;
+        element.style.display = "none";
+    }
 
-/* ---------- patient case ---------- */
-async function loadPatientCase(patientId, knownPatient) {
-  currentPatientId = patientId;
 
-  showPatientCase({
-    patient: knownPatient || { id: patientId },
-    history: null,
-    conversation: [],
-    loading: true
-  });
+    // =========================================================
+    // HTML ESCAPE
+    // =========================================================
 
-  try {
-    const response = await fetch(`${API.patientCase}/${encodeURIComponent(patientId)}`);
-    if (!response.ok) throw new Error(`Case fetch failed with status ${response.status}`);
-    const data = await response.json();
-    showPatientCase(data);
-  } catch (err) {
-    console.warn('Patient case unavailable:', err.message);
-    // Keep the panel open with whatever list data we already had.
-    showPatientCase({
-      patient: knownPatient || { id: patientId },
-      history: null,
-      conversation: []
-    });
-  }
-}
+    function escapeHtml(value) {
 
-function showPatientCase(data) {
-  const patient = data.patient || {};
-  const history = data.history || null;
-  const conversation = data.conversation || [];
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return "";
+        }
 
-  toggle(els.casePlaceholder, false);
-  toggle(els.casePanel, true);
-  els.casePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
-  renderPatientIdentity(patient);
-  renderClinicalHistory(history);
-  renderRedFlag(history);
-  renderConversation(conversation);
-  setActiveTab('history');
-}
 
-function fieldOrPlaceholder(value) {
-  return (value && String(value).trim().length > 0) ? value : null;
-}
+    // =========================================================
+    // SEARCH RESULT COUNT
+    // =========================================================
 
-function renderPatientIdentity(patient) {
-  const name = fieldOrPlaceholder(patient.name) || 'Patient name not available';
-  const initial = name.trim().charAt(0).toUpperCase() || 'P';
-  const age = fieldOrPlaceholder(patient.age) ? `${patient.age} years` : null;
-  const gender = fieldOrPlaceholder(patient.gender);
-  const mobile = fieldOrPlaceholder(patient.mobile);
-  const abha = fieldOrPlaceholder(patient.abha_id);
+    function updateResultCount(count) {
 
-  const metaParts = [];
-  if (age) metaParts.push(`<span>${escapeHtml(age)}</span>`);
-  if (gender) metaParts.push(`<span>${escapeHtml(gender)}</span>`);
-  if (mobile) metaParts.push(`<span>${escapeHtml(mobile)}</span>`);
-  if (abha) metaParts.push(`<span>ABHA ${escapeHtml(abha)}</span>`);
+        if (!resultsCount) {
+            return;
+        }
 
-  els.patientIdentity.innerHTML = `
-    <div class="pi-left">
-      <div class="avatar avatar-lg">${escapeHtml(initial)}</div>
-      <div>
-        <div class="pi-name">${escapeHtml(name)}</div>
-        <div class="pi-meta">${metaParts.join('') || '<span>Additional details not provided</span>'}</div>
-      </div>
-    </div>
-  `;
-}
+        if (count === 0) {
+            resultsCount.textContent =
+                "No patients found.";
+            return;
+        }
 
-const HISTORY_FIELDS = [
-  { key: 'main_problem', label: 'Main problem', icon: 'problem' },
-  { key: 'duration', label: 'Duration', icon: 'duration' },
-  { key: 'symptoms', label: 'Symptoms', icon: 'symptoms' },
-  { key: 'medical_history', label: 'Medical history', icon: 'history' },
-  { key: 'medicines', label: 'Current medicines', icon: 'medicines' },
-  { key: 'allergies', label: 'Allergies', icon: 'allergies' },
-  { key: 'summary', label: 'AI summary', icon: 'summary', wide: true },
-];
+        resultsCount.textContent =
+            String(count) +
+            (
+                count === 1
+                    ? " patient found."
+                    : " patients found."
+            );
+    }
 
-const HISTORY_ICONS = {
-  problem: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5.2v3.4M8 10.6h.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
-  duration: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.8V8l2.4 1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  symptoms: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2 14 13H2L8 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6.6v2.6M8 11h.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
-  history: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="2.4" width="10" height="11.2" rx="1.2" stroke="currentColor" stroke-width="1.4"/><path d="M5.4 5.6h5.2M5.4 8h5.2M5.4 10.4h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
-  medicines: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.6" y="6.4" width="10.8" height="6.2" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M8 6.4v6.2" stroke="currentColor" stroke-width="1.4"/><path d="M4.6 6.4V4.2a1.8 1.8 0 0 1 3.6 0v2.2" stroke="currentColor" stroke-width="1.4"/></svg>',
-  allergies: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2.6c1.6 1.8 4 4.2 4 6.7a4 4 0 1 1-8 0c0-2.5 2.4-4.9 4-6.7Z" stroke="currentColor" stroke-width="1.4"/></svg>',
-  summary: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.6 9.6 5.8 14 7.4 9.6 9 8 13.2 6.4 9 2 7.4 6.4 5.8 8 1.6Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>',
-};
 
-function renderClinicalHistory(history) {
-  els.historyGrid.innerHTML = '';
+    // =========================================================
+    // CLEAR RESULTS
+    // =========================================================
 
-  HISTORY_FIELDS.forEach(function (field) {
-    const value = history ? fieldOrPlaceholder(history[field.key]) : null;
+    function clearResults() {
 
-    const item = document.createElement('div');
-    item.className = 'history-item' + (field.wide ? ' wide' : '');
-    item.innerHTML = `
-      <div class="history-icon">${HISTORY_ICONS[field.icon] || ''}</div>
-      <div>
-        <div class="history-item-label">${escapeHtml(field.label)}</div>
-        <div class="history-item-value${value ? '' : ' empty'}">${value ? escapeHtml(value) : 'Not provided'}</div>
-      </div>
-    `;
-    els.historyGrid.appendChild(item);
-  });
-}
+        if (patientList) {
+            patientList.innerHTML = "";
+        }
+    }
 
-function renderRedFlag(history) {
-  const hasRedFlag = !!(history && history.red_flag);
 
-  if (hasRedFlag) {
-    els.redFlagCard.className = 'redflag-card alert';
-    els.redFlagCard.innerHTML = `
-      <div class="redflag-head">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2.4 16 15.6H2L9 2.4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 7.4v3.2M9 12.6h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="redflag-title">Important attention</span>
-      </div>
-      <p class="redflag-body">Potential red flag identified from the patient's intake responses. Clinical evaluation by the doctor is required.</p>
-      <span class="redflag-tag">AI-generated attention alert</span>
-    `;
-  } else {
-    els.redFlagCard.className = 'redflag-card clear';
-    els.redFlagCard.innerHTML = `
-      <div class="redflag-head">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M6 9.2 8.2 11.4 12.3 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="redflag-title">No red flag detected</span>
-      </div>
-      <p class="redflag-body">No immediate AI red flag detected from the intake conversation.</p>
-      <span class="redflag-tag">AI-generated attention alert</span>
-    `;
-  }
-}
+    // =========================================================
+    // SEARCH PATIENTS
+    // =========================================================
 
-function renderConversation(conversation) {
-  els.conversationTimeline.innerHTML = '';
+    function searchPatients(event) {
 
-  if (!conversation || conversation.length === 0) {
-    const empty = document.createElement('li');
-    empty.className = 'docs-empty';
-    empty.textContent = 'No conversation recorded for this intake yet.';
-    els.conversationTimeline.appendChild(empty);
-    return;
-  }
+        if (event) {
+            event.preventDefault();
+        }
 
-  conversation.forEach(function (msg) {
-    const isPatient = (msg.sender || '').toLowerCase() === 'patient';
-    const li = document.createElement('li');
-    li.className = 'convo-item ' + (isPatient ? 'patient' : 'ai');
-    li.innerHTML = `
-      <div class="convo-avatar">${isPatient ? 'P' : 'AI'}</div>
-      <div class="convo-bubble">
-        <div class="convo-sender">${isPatient ? 'Patient' : 'CareSync AI'}</div>
-        <div class="convo-text">${escapeHtml(msg.message || '')}</div>
-        ${msg.created_at ? `<div class="convo-time">${escapeHtml(msg.created_at)}</div>` : ''}
-      </div>
-    `;
-    els.conversationTimeline.appendChild(li);
-  });
-}
+        if (!searchInput) {
 
-/* ---------- tabs ---------- */
-document.querySelectorAll('.case-tab').forEach(function (tab) {
-  tab.addEventListener('click', function () { setActiveTab(tab.dataset.tab); });
+            console.error(
+                "ERROR: patientSearchInput not found."
+            );
+
+            return;
+        }
+
+        var query =
+            String(searchInput.value || "").trim();
+
+        console.log(
+            "Searching patient:",
+            query
+        );
+
+
+        // Empty search
+        if (!query) {
+
+            clearResults();
+
+            updateResultCount(0);
+
+            hide(noResultsState);
+            hide(loadingState);
+
+            show(emptyState);
+
+            return;
+        }
+
+
+        // Loading state
+        clearResults();
+
+        hide(emptyState);
+        hide(noResultsState);
+        show(loadingState);
+
+
+        var url =
+            "/api/doctor/patients/search?q=" +
+            encodeURIComponent(query);
+
+
+        console.log(
+            "SEARCH URL:",
+            url
+        );
+
+
+        fetch(
+            url,
+            {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                },
+                cache: "no-store"
+            }
+        )
+        .then(
+            function (response) {
+
+                console.log(
+                    "SEARCH STATUS:",
+                    response.status
+                );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Search failed. HTTP " +
+                        response.status
+                    );
+                }
+
+                return response.json();
+            }
+        )
+        .then(
+            function (data) {
+
+                console.log(
+                    "SEARCH RESPONSE:",
+                    data
+                );
+
+                hide(loadingState);
+
+                clearResults();
+
+
+                // =================================================
+                // HANDLE API RESPONSE
+                // =================================================
+
+                var patients = [];
+
+
+                if (Array.isArray(data)) {
+
+                    patients = data;
+
+                } else if (
+                    data &&
+                    Array.isArray(data.patients)
+                ) {
+
+                    patients = data.patients;
+
+                } else if (
+                    data &&
+                    Array.isArray(data.results)
+                ) {
+
+                    patients = data.results;
+
+                } else if (
+                    data &&
+                    data.patient
+                ) {
+
+                    patients = [
+                        data.patient
+                    ];
+                }
+
+
+                console.log(
+                    "PATIENTS FOUND:",
+                    patients.length
+                );
+
+
+                updateResultCount(
+                    patients.length
+                );
+
+
+                if (patients.length === 0) {
+
+                    hide(emptyState);
+                    show(noResultsState);
+
+                    return;
+                }
+
+
+                hide(emptyState);
+                hide(noResultsState);
+
+
+                for (
+                    var i = 0;
+                    i < patients.length;
+                    i++
+                ) {
+
+                    createPatientCard(
+                        patients[i]
+                    );
+                }
+            }
+        )
+        .catch(
+            function (error) {
+
+                console.error(
+                    "PATIENT SEARCH ERROR:",
+                    error
+                );
+
+                hide(loadingState);
+                clearResults();
+
+                updateResultCount(0);
+
+                hide(emptyState);
+                show(noResultsState);
+
+                if (noResultsState) {
+
+                    noResultsState.innerHTML =
+                        '<p class="empty-title">' +
+                        'Search error' +
+                        '</p>' +
+
+                        '<p class="empty-sub">' +
+                        escapeHtml(
+                            error.message
+                        ) +
+                        '</p>';
+                }
+            }
+        );
+    }
+
+
+    // =========================================================
+    // SEARCH FORM
+    // =========================================================
+
+    if (searchForm) {
+
+        searchForm.addEventListener(
+            "submit",
+            searchPatients
+        );
+
+    } else {
+
+        console.error(
+            "ERROR: searchForm not found."
+        );
+    }
+
+
+    // =========================================================
+    // SEARCH BUTTON FALLBACK
+    // =========================================================
+
+    if (searchBtn) {
+
+        searchBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                searchPatients(event);
+            }
+        );
+    }
+
+
+    // =========================================================
+    // ENTER KEY FALLBACK
+    // =========================================================
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    searchPatients(event);
+                }
+            }
+        );
+    }
+
+
+    // =========================================================
+    // CREATE PATIENT CARD
+    // =========================================================
+
+    function createPatientCard(patient) {
+
+        if (!patientList) {
+
+            console.error(
+                "ERROR: patientList not found."
+            );
+
+            return;
+        }
+
+
+        var patientId =
+            patient.id ||
+            patient.patient_id ||
+            patient.patientId;
+
+
+        var name =
+            patient.full_name ||
+            patient.fullName ||
+            patient.name ||
+            "Unknown Patient";
+
+
+        var age =
+            patient.age !== null &&
+            patient.age !== undefined
+                ? patient.age
+                : "N/A";
+
+
+        var gender =
+            patient.gender ||
+            "N/A";
+
+
+        var phone =
+            patient.phone ||
+            patient.mobile ||
+            "Not available";
+
+
+        var abha =
+            patient.abha_id ||
+            patient.abhaId ||
+            "Not available";
+
+
+        var status =
+            patient.status ||
+            "Intake available";
+
+
+        var lastVisit =
+            patient.last_visit ||
+            patient.lastVisit ||
+            patient.last_case_date ||
+            "";
+
+
+        // =====================================================
+        // USE EXISTING TEMPLATE
+        // =====================================================
+
+        var card;
+
+
+        if (patientCardTemplate) {
+
+            var clone =
+                patientCardTemplate.content.cloneNode(
+                    true
+                );
+
+            card =
+                clone.querySelector(
+                    ".patient-card"
+                );
+
+            if (!card) {
+                return;
+            }
+
+
+            var avatar =
+                card.querySelector(
+                    ".avatar"
+                );
+
+            var patientName =
+                card.querySelector(
+                    ".patient-name"
+                );
+
+            var patientDemo =
+                card.querySelector(
+                    ".patient-demo"
+                );
+
+            var patientMobile =
+                card.querySelector(
+                    ".patient-mobile"
+                );
+
+            var patientAbha =
+                card.querySelector(
+                    ".patient-abha"
+                );
+
+            var statusPill =
+                card.querySelector(
+                    ".status-pill"
+                );
+
+            var lastVisitElement =
+                card.querySelector(
+                    ".last-visit"
+                );
+
+            var viewCaseBtn =
+                card.querySelector(
+                    ".view-case-btn"
+                );
+
+
+            if (avatar) {
+
+                avatar.textContent =
+                    String(name)
+                        .charAt(0)
+                        .toUpperCase();
+            }
+
+
+            if (patientName) {
+
+                patientName.textContent =
+                    name;
+            }
+
+
+            if (patientDemo) {
+
+                patientDemo.textContent =
+                    String(age) +
+                    " years • " +
+                    String(gender);
+            }
+
+
+            if (patientMobile) {
+
+                patientMobile.textContent =
+                    "Mobile: " +
+                    String(phone);
+            }
+
+
+            if (patientAbha) {
+
+                patientAbha.textContent =
+                    "ABHA: " +
+                    String(abha);
+            }
+
+
+            if (statusPill) {
+
+                statusPill.textContent =
+                    status;
+            }
+
+
+            if (lastVisitElement) {
+
+                if (lastVisit) {
+
+                    lastVisitElement.textContent =
+                        "Last case: " +
+                        String(lastVisit);
+
+                } else {
+
+                    lastVisitElement.textContent =
+                        "Case available";
+                }
+            }
+
+
+            if (viewCaseBtn) {
+
+                viewCaseBtn.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        if (patientId) {
+                            loadPatientCase(
+                                patientId
+                            );
+                        }
+                    }
+                );
+            }
+
+
+            card.addEventListener(
+                "click",
+                function () {
+
+                    if (patientId) {
+                        loadPatientCase(
+                            patientId
+                        );
+                    }
+                }
+            );
+
+
+            card.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Enter" ||
+                        event.key === " "
+                    ) {
+
+                        event.preventDefault();
+
+                        if (patientId) {
+                            loadPatientCase(
+                                patientId
+                            );
+                        }
+                    }
+                }
+            );
+
+
+            patientList.appendChild(
+                clone
+            );
+
+            return;
+        }
+
+
+        // =====================================================
+        // FALLBACK CARD
+        // =====================================================
+
+        var fallbackCard =
+            document.createElement("li");
+
+        fallbackCard.className =
+            "patient-card";
+
+        fallbackCard.innerHTML =
+            '<div class="patient-card-id">' +
+
+                '<div class="avatar avatar-md">' +
+                    escapeHtml(
+                        String(name)
+                            .charAt(0)
+                            .toUpperCase()
+                    ) +
+                '</div>' +
+
+                '<div class="patient-card-name">' +
+
+                    '<span class="patient-name">' +
+                        escapeHtml(name) +
+                    '</span>' +
+
+                    '<span class="patient-demo">' +
+                        escapeHtml(
+                            String(age) +
+                            " years • " +
+                            String(gender)
+                        ) +
+                    '</span>' +
+
+                '</div>' +
+
+            '</div>' +
+
+            '<div class="patient-card-meta">' +
+
+                '<span class="patient-mobile">' +
+                    escapeHtml(phone) +
+                '</span>' +
+
+                '<span class="patient-abha">' +
+                    escapeHtml(abha) +
+                '</span>' +
+
+            '</div>' +
+
+            '<div class="patient-card-status">' +
+
+                '<span class="status-pill">' +
+                    escapeHtml(status) +
+                '</span>' +
+
+                '<span class="last-visit">' +
+                    escapeHtml(lastVisit) +
+                '</span>' +
+
+            '</div>' +
+
+            '<button type="button" class="btn btn-outline btn-sm view-case-btn">' +
+                'View case' +
+            '</button>';
+
+
+        var fallbackButton =
+            fallbackCard.querySelector(
+                ".view-case-btn"
+            );
+
+
+        if (fallbackButton) {
+
+            fallbackButton.addEventListener(
+                "click",
+                function (event) {
+
+                    event.stopPropagation();
+
+                    if (patientId) {
+                        loadPatientCase(
+                            patientId
+                        );
+                    }
+                }
+            );
+        }
+
+
+        fallbackCard.addEventListener(
+            "click",
+            function () {
+
+                if (patientId) {
+                    loadPatientCase(
+                        patientId
+                    );
+                }
+            }
+        );
+
+
+        patientList.appendChild(
+            fallbackCard
+        );
+    }
+
+
+    // =========================================================
+    // LOAD PATIENT CASE
+    // =========================================================
+
+    function loadPatientCase(patientId) {
+
+        if (!patientId) {
+
+            console.error(
+                "Patient ID missing."
+            );
+
+            return;
+        }
+
+
+        currentPatientId =
+            patientId;
+
+
+        console.log(
+            "Loading patient:",
+            patientId
+        );
+
+
+        // Show case panel
+        if (casePanel) {
+            casePanel.hidden = false;
+            casePanel.style.display = "";
+        }
+
+
+        if (casePlaceholder) {
+            hide(casePlaceholder);
+        }
+
+
+        if (patientList) {
+            patientList.style.display = "none";
+        }
+
+
+        if (patientIdentity) {
+
+            patientIdentity.innerHTML =
+                '<p>Loading patient details...</p>';
+        }
+
+
+        fetch(
+            "/api/doctor/patient/" +
+            encodeURIComponent(patientId),
+            {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                },
+                cache: "no-store"
+            }
+        )
+        .then(
+            function (response) {
+
+                return response.text()
+                    .then(
+                        function (text) {
+
+                            var data;
+
+                            try {
+
+                                data =
+                                    JSON.parse(
+                                        text
+                                    );
+
+                            } catch (error) {
+
+                                throw new Error(
+                                    "Server returned invalid JSON."
+                                );
+                            }
+
+
+                            if (!response.ok) {
+
+                                throw new Error(
+                                    data.error ||
+                                    "Unable to load patient case."
+                                );
+                            }
+
+
+                            return data;
+                        }
+                    );
+            }
+        )
+        .then(
+            function (data) {
+
+                console.log(
+                    "PATIENT CASE:",
+                    data
+                );
+
+                renderPatientCase(
+                    data
+                );
+            }
+        )
+        .catch(
+            function (error) {
+
+                console.error(
+                    "PATIENT CASE ERROR:",
+                    error
+                );
+
+                if (patientIdentity) {
+
+                    patientIdentity.innerHTML =
+                        '<div class="error-message">' +
+
+                            '<strong>' +
+                                'Unable to load patient details.' +
+                            '</strong>' +
+
+                            '<br><br>' +
+
+                            escapeHtml(
+                                error.message
+                            ) +
+
+                        '</div>';
+                }
+            }
+        );
+    }
+
+
+    // =========================================================
+    // RENDER CASE
+    // =========================================================
+
+    function renderPatientCase(data) {
+
+        var patient =
+            data.patient ||
+            data;
+
+
+        var history =
+            data.history ||
+            data.latest_history ||
+            {};
+
+
+        var conversations =
+            data.conversations ||
+            [];
+
+
+        renderPatientIdentity(
+            patient
+        );
+
+
+        renderHistory(
+            history
+        );
+
+
+        renderRedFlag(
+            data
+        );
+
+
+        renderConversation(
+            conversations
+        );
+
+
+        renderDocuments(
+            data.documents ||
+            []
+        );
+    }
+
+
+    // =========================================================
+    // PATIENT IDENTITY
+    // =========================================================
+
+    function renderPatientIdentity(patient) {
+
+        if (!patientIdentity) {
+            return;
+        }
+
+
+        var name =
+            patient.full_name ||
+            patient.fullName ||
+            patient.name ||
+            "Unknown Patient";
+
+
+        var age =
+            patient.age !== undefined &&
+            patient.age !== null
+                ? patient.age
+                : "N/A";
+
+
+        var gender =
+            patient.gender ||
+            "N/A";
+
+
+        var phone =
+            patient.phone ||
+            "Not available";
+
+
+        var abha =
+            patient.abha_id ||
+            patient.abhaId ||
+            "Not available";
+
+
+        patientIdentity.innerHTML =
+
+            '<div class="patient-detail-name">' +
+                escapeHtml(name) +
+            '</div>' +
+
+            '<div class="patient-detail-grid">' +
+
+                '<div>' +
+                    '<span>Age</span>' +
+                    '<strong>' +
+                        escapeHtml(age) +
+                    '</strong>' +
+                '</div>' +
+
+                '<div>' +
+                    '<span>Gender</span>' +
+                    '<strong>' +
+                        escapeHtml(gender) +
+                    '</strong>' +
+                '</div>' +
+
+                '<div>' +
+                    '<span>Phone</span>' +
+                    '<strong>' +
+                        escapeHtml(phone) +
+                    '</strong>' +
+                '</div>' +
+
+                '<div>' +
+                    '<span>ABHA ID</span>' +
+                    '<strong>' +
+                        escapeHtml(abha) +
+                    '</strong>' +
+                '</div>' +
+
+            '</div>';
+    }
+
+
+    // =========================================================
+    // HISTORY
+    // =========================================================
+
+    function renderHistory(history) {
+
+        if (!historyGrid) {
+            return;
+        }
+
+
+        var complaint =
+            history.main_problem ||
+            history.mainProblem ||
+            "Not clearly stated.";
+
+
+        var duration =
+            history.duration ||
+            "Not clearly stated.";
+
+
+        var symptoms =
+            history.symptoms ||
+            "Not clearly stated.";
+
+
+        var medicalHistory =
+            history.medical_history ||
+            history.medicalHistory ||
+            "Not clearly stated.";
+
+
+        var medicines =
+            history.medicines ||
+            "Not clearly stated.";
+
+
+        var allergies =
+            history.allergies ||
+            "Not clearly stated.";
+
+
+        var summary =
+            history.summary ||
+            "Not clearly stated.";
+
+
+        historyGrid.innerHTML =
+
+            historyItem(
+                "Current Complaint",
+                complaint
+            ) +
+
+            historyItem(
+                "Duration",
+                duration
+            ) +
+
+            historyItem(
+                "Current Symptoms",
+                symptoms
+            ) +
+
+            historyItem(
+                "Past Medical History",
+                medicalHistory
+            ) +
+
+            historyItem(
+                "Current Medications",
+                medicines
+            ) +
+
+            historyItem(
+                "Allergies",
+                allergies
+            ) +
+
+            historyItem(
+                "Summary",
+                summary
+            );
+    }
+
+
+    function historyItem(title, value) {
+
+        return (
+
+            '<div class="history-item">' +
+
+                '<div class="history-label">' +
+                    escapeHtml(title) +
+                '</div>' +
+
+                '<div class="history-value">' +
+                    escapeHtml(value) +
+                '</div>' +
+
+            '</div>'
+        );
+    }
+
+
+    // =========================================================
+    // RED FLAGS
+    // =========================================================
+
+    function renderRedFlag(data) {
+
+        if (!redFlagCard) {
+            return;
+        }
+
+
+        var detected =
+            data.red_flag_detected === true ||
+            data.red_flag === true;
+
+
+        var reason =
+            data.red_flag_reason ||
+            data.redFlagReason ||
+            "";
+
+
+        if (!detected) {
+
+            redFlagCard.innerHTML =
+
+                '<div class="red-flag-safe">' +
+
+                    '<strong>' +
+                        'No Red Flag Detected' +
+                    '</strong>' +
+
+                    '<p>' +
+                        'No potential emergency warning signal was detected.' +
+                    '</p>' +
+
+                '</div>';
+
+            return;
+        }
+
+
+        if (!reason) {
+
+            reason =
+                "A potentially serious symptom was detected.";
+        }
+
+
+        redFlagCard.innerHTML =
+
+            '<div class="red-flag-danger">' +
+
+                '<strong>' +
+                    'RED FLAG DETECTED' +
+                '</strong>' +
+
+                '<p>' +
+
+                    '<strong>Reason:</strong> ' +
+
+                    escapeHtml(reason) +
+
+                '</p>' +
+
+                '<p>' +
+
+                    '<strong>Action:</strong> ' +
+
+                    'Please seek urgent medical attention. ' +
+
+                    'This is an emergency warning, not a diagnosis.' +
+
+                '</p>' +
+
+            '</div>';
+    }
+
+
+    // =========================================================
+    // CONVERSATION
+    // =========================================================
+
+    function renderConversation(conversations) {
+
+        if (!conversationTimeline) {
+            return;
+        }
+
+
+        conversationTimeline.innerHTML = "";
+
+
+        if (
+            !Array.isArray(conversations) ||
+            conversations.length === 0
+        ) {
+
+            conversationTimeline.innerHTML =
+                '<li>No conversation available.</li>';
+
+            return;
+        }
+
+
+        for (
+            var i = 0;
+            i < conversations.length;
+            i++
+        ) {
+
+            var item =
+                conversations[i];
+
+
+            var sender =
+                String(
+                    item.sender ||
+                    item.role ||
+                    ""
+                ).toLowerCase();
+
+
+            var message =
+                item.message ||
+                item.content ||
+                "";
+
+
+            var li =
+                document.createElement("li");
+
+
+            li.className =
+                sender === "patient"
+                    ? "conversation-item patient"
+                    : "conversation-item ai";
+
+
+            li.innerHTML =
+
+                '<div class="conversation-sender">' +
+
+                    (
+                        sender === "patient"
+                            ? "Patient"
+                            : "AI Assistant"
+                    ) +
+
+                '</div>' +
+
+                '<div class="conversation-message">' +
+
+                    escapeHtml(message) +
+
+                '</div>';
+
+
+            conversationTimeline.appendChild(
+                li
+            );
+        }
+    }
+
+
+    // =========================================================
+    // DOCUMENTS
+    // =========================================================
+
+    function renderDocuments(documents) {
+
+        var docsEmpty =
+            document.querySelector(
+                ".docs-empty"
+            );
+
+
+        if (!docsEmpty) {
+            return;
+        }
+
+
+        if (
+            !Array.isArray(documents) ||
+            documents.length === 0
+        ) {
+
+            docsEmpty.innerHTML =
+                '<p>No documents attached to this case yet.</p>';
+
+            return;
+        }
+
+
+        var html =
+            '<div class="doctor-documents-list">';
+
+
+        for (
+            var i = 0;
+            i < documents.length;
+            i++
+        ) {
+
+            var doc =
+                documents[i];
+
+
+            var id =
+                doc.id ||
+                doc.document_id;
+
+
+            var filename =
+                doc.original_filename ||
+                doc.filename ||
+                "Document";
+
+
+            html +=
+
+                '<div class="doctor-document-row">' +
+
+                    '<span>' +
+                        escapeHtml(filename) +
+                    '</span>' +
+
+                    '<a href="/doctor/document/' +
+                        encodeURIComponent(id) +
+                        '/view" target="_blank">' +
+                        'View' +
+                    '</a>' +
+
+                    '<a href="/doctor/document/' +
+                        encodeURIComponent(id) +
+                        '/download">' +
+                        'Download' +
+                    '</a>' +
+
+                '</div>';
+        }
+
+
+        html += "</div>";
+
+
+        docsEmpty.innerHTML =
+            html;
+    }
+
+
+    // =========================================================
+    // BACK TO PATIENTS
+    // =========================================================
+
+    if (backToPatients) {
+
+        backToPatients.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+
+                currentPatientId = null;
+
+
+                if (casePanel) {
+                    hide(casePanel);
+                }
+
+
+                if (patientList) {
+                    patientList.style.display = "";
+                }
+
+
+                if (casePlaceholder) {
+                    show(casePlaceholder);
+                }
+
+
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }
+        );
+    }
+
+
+    // =========================================================
+    // CASE TABS
+    // =========================================================
+
+    var caseTabs =
+        document.querySelectorAll(
+            ".case-tab"
+        );
+
+
+    var casePanels =
+        document.querySelectorAll(
+            ".case-tab-panel"
+        );
+
+
+    for (
+        var t = 0;
+        t < caseTabs.length;
+        t++
+    ) {
+
+        caseTabs[t].addEventListener(
+            "click",
+            function () {
+
+                var selectedTab =
+                    this.getAttribute(
+                        "data-tab"
+                    );
+
+
+                for (
+                    var a = 0;
+                    a < caseTabs.length;
+                    a++
+                ) {
+
+                    caseTabs[a].classList.remove(
+                        "active"
+                    );
+
+                    caseTabs[a].setAttribute(
+                        "aria-selected",
+                        "false"
+                    );
+                }
+
+
+                for (
+                    var b = 0;
+                    b < casePanels.length;
+                    b++
+                ) {
+
+                    casePanels[b].classList.remove(
+                        "active"
+                    );
+                }
+
+
+                this.classList.add(
+                    "active"
+                );
+
+                this.setAttribute(
+                    "aria-selected",
+                    "true"
+                );
+
+
+                for (
+                    var c = 0;
+                    c < casePanels.length;
+                    c++
+                ) {
+
+                    if (
+                        casePanels[c].getAttribute(
+                            "data-panel"
+                        ) === selectedTab
+                    ) {
+
+                        casePanels[c].classList.add(
+                            "active"
+                        );
+                    }
+                }
+            }
+        );
+    }
+
+
+    // =========================================================
+    // CONVERSATION TOGGLE
+    // =========================================================
+
+    if (toggleConversation) {
+
+        toggleConversation.addEventListener(
+            "click",
+            function () {
+
+                if (!conversationTimeline) {
+                    return;
+                }
+
+
+                conversationTimeline.classList.toggle(
+                    "expanded"
+                );
+
+
+                if (
+                    conversationTimeline.classList.contains(
+                        "expanded"
+                    )
+                ) {
+
+                    toggleConversation.textContent =
+                        "Collapse";
+
+                } else {
+
+                    toggleConversation.textContent =
+                        "Expand";
+                }
+            }
+        );
+    }
+
+
+    // =========================================================
+    // VERIFY CASE
+    // =========================================================
+
+    if (verifyCaseBtn) {
+
+        verifyCaseBtn.addEventListener(
+            "click",
+            function () {
+
+                if (!currentPatientId) {
+                    return;
+                }
+
+
+                fetch(
+                    "/api/doctor/patient/" +
+                    encodeURIComponent(
+                        currentPatientId
+                    ) +
+                    "/verify",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+                            "Accept":
+                                "application/json"
+                        },
+                        body: JSON.stringify({})
+                    }
+                )
+                .then(
+                    function (response) {
+                        return response.json();
+                    }
+                )
+                .then(
+                    function (data) {
+
+                        if (
+                            data &&
+                            data.success
+                        ) {
+
+                            verifyCaseBtn.textContent =
+                                "Verified";
+
+                            verifyCaseBtn.disabled =
+                                true;
+                        }
+                    }
+                )
+                .catch(
+                    function (error) {
+
+                        console.error(
+                            "VERIFY ERROR:",
+                            error
+                        );
+                    }
+                );
+            }
+        );
+    }
+
+
+    // =========================================================
+    // REVIEW CASE
+    // =========================================================
+
+    if (reviewCaseBtn) {
+
+        reviewCaseBtn.addEventListener(
+            "click",
+            function () {
+
+                if (!currentPatientId) {
+                    return;
+                }
+
+
+                window.location.href =
+                    "/physician-review?patient_id=" +
+                    encodeURIComponent(
+                        currentPatientId
+                    );
+            }
+        );
+    }
+
+
+    // =========================================================
+    // LOGOUT
+    // =========================================================
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                window.location.href =
+                    "/logout";
+            }
+        );
+    }
+
+
+    // =========================================================
+    // INITIAL STATE
+    // =========================================================
+
+    hide(casePanel);
+    hide(noResultsState);
+    hide(loadingState);
+
+    show(emptyState);
+
 });
-function setActiveTab(tabName) {
-  document.querySelectorAll('.case-tab').forEach(function (t) {
-    const active = t.dataset.tab === tabName;
-    t.classList.toggle('active', active);
-    t.setAttribute('aria-selected', active ? 'true' : 'false');
-  });
-  document.querySelectorAll('.case-tab-panel').forEach(function (p) {
-    p.classList.toggle('active', p.dataset.panel === tabName);
-  });
-}
-
-/* ---------- conversation expand toggle ---------- */
-els.toggleConversation && els.toggleConversation.addEventListener('click', function () {
-  const collapsed = els.conversationTimeline.classList.toggle('collapsed');
-  els.toggleConversation.textContent = collapsed ? 'Expand' : 'Collapse';
-});
-
-/* ---------- back to patients ---------- */
-els.backToPatients.addEventListener('click', function () {
-  currentPatientId = null;
-  toggle(els.casePanel, false);
-  toggle(els.casePlaceholder, true);
-});
-
-/* ---------- review / verify actions ---------- */
-els.reviewCaseBtn.addEventListener('click', function () {
-  setActiveTab('history');
-  els.casePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
-els.verifyCaseBtn.addEventListener('click', function () {
-  verifyCase(currentPatientId);
-});
-
-async function verifyCase(patientId) {
-  if (!patientId) return;
-
-  const btn = els.verifyCaseBtn;
-  const originalLabel = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = 'Verifying…';
-
-  try {
-    const response = await fetch(`${API.patientCase}/${encodeURIComponent(patientId)}/verify`, {
-      method: 'POST'
-    });
-
-    if (!response.ok) throw new Error(`Verify failed with status ${response.status}`);
-
-    btn.innerHTML = 'Case verified';
-    setTimeout(function () { btn.innerHTML = originalLabel; btn.disabled = false; }, 2200);
-
-  } catch (err) {
-    // No backend connected yet — do not claim the case was saved.
-    console.warn('Verification not saved (no backend yet):', err.message);
-    btn.innerHTML = 'Verification pending backend';
-    setTimeout(function () { btn.innerHTML = originalLabel; btn.disabled = false; }, 2400);
-  }
-}
-
-/* ---------- logout ---------- */
-function logout() {
-  window.location.href = '/logout';
-}
-
-/* ---------- utilities ---------- */
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = String(str);
-  return div.innerHTML;
-}
